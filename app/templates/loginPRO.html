@@ -1,0 +1,38 @@
+<ion-view title="Comune di Rimini" class="bar-positive">
+    <ion-content padding="true" class="has-header">
+    <div class="row">
+    <div class="col text-center positive"><h4>Protocollazione mobile</h4></div>
+    </div>
+
+        <form id="loginform" class="form-horizontal" role="form" ng-submit="login(credentials)" novalidate>
+               
+      <!-- <p>&nbsp;</p> -->
+
+      <div class="list">
+       <label class="item item-text-wrap item-thumbnail-left">
+        <img src="http://www.comune.rimini.it/immagini/logo_rimini.png">
+        <h2>Applicazione per richiesta di identificativi di protocollo.* Versione di prova **</h2>
+        <h2>** Versione di prova **</h2>
+        <h2>#Utente e password qualsiasi#</h2>
+       </label>
+        <label class="item item-input item-stacked-label">
+           <span class="input-label">Utente:</span>
+           <input type="text" ng-model="credentials.username" placeholder="username">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Password:</span>
+          <input type="password" ng-model="credentials.password" placeholder="password">
+        </label>
+
+          
+        <label class="item">
+          <button class="button button-balanced button-block" type="submit">Logon</button>
+        </label>
+          
+      </div>
+
+      
+      </form> 
+        
+    </ion-content>
+</ion-view>
