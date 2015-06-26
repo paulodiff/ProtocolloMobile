@@ -36,22 +36,30 @@ module.exports = function (grunt) {
       options: {
         space: '  ',
         wrap: '"use strict";\n\n {%= __ngModule %}',
-        name: 'config',
+        name: 'myApp.config',
         dest: '<%= yeoman.app %>/<%= yeoman.scripts %>/configuration.js'
       },
       development: {
         constants: {
           ENV: {
             name: 'development',
-            apiEndpoint: 'http://dev.yoursite.com:10000/'
-          }
+            apiEndpoint: 'http://fakedev.yoursite.com:109900',
+            loginUserName:'',
+            loginUserPassword:'',
+            AUTH_EVENTS:{loginSuccess:'auth-login-success',loginFailed:'auth-login-failed',logoutSuccess:'auth-logout-success',sessionTimeout:'auth-session-timeout',notAuthenticated:'auth-not-authenticated',notAuthorized:'auth-not-authorized'},
+            USER_ROLES:{all:'*',admin:'admin',editor:'editor',guest:'guest'}
+         }
         }
       },
       production: {
         constants: {
           ENV: {
             name: 'production',
-            apiEndpoint: 'http://api.yoursite.com/'
+            apiEndpoint: 'http://fakedev.yoursite.com:109900',
+            loginUserName:'',
+            loginUserPassword:'',
+            AUTH_EVENTS:{loginSuccess:'auth-login-success',loginFailed:'auth-login-failed',logoutSuccess:'auth-logout-success',sessionTimeout:'auth-session-timeout',notAuthenticated:'auth-not-authenticated',notAuthorized:'auth-not-authorized'},
+            USER_ROLES:{all:'*',admin:'admin',editor:'editor',guest:'guest'}
           }
         }
       }

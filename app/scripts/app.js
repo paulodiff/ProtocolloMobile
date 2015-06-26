@@ -55,6 +55,7 @@ angular.module('myApp', ['ionic',
             accessLogged: false 
     });
  
+ /*
     $stateProvider.state('menu.report',{
         url: '/report',
         views: {
@@ -117,7 +118,7 @@ angular.module('myApp', ['ionic',
         accessLogged: true, 
         configAction: 'view'
     });
-
+*/
     // protocolli
 
 
@@ -147,7 +148,7 @@ angular.module('myApp', ['ionic',
         configAction: 'new'
   });
 
-    
+/*    
     // rapporti
     
     $stateProvider.state('menu.listRelazioni',{
@@ -202,6 +203,7 @@ angular.module('myApp', ['ionic',
         accessLogged: true, 
         configAction: 'view'
   });    
+
     
   $stateProvider.state('menu.about',{
         url: '/about',
@@ -215,6 +217,7 @@ angular.module('myApp', ['ionic',
         configAction: 'view'
   });  
     
+*/
   $stateProvider.state('menu.help',{
         url: '/help',
          views: {
@@ -226,6 +229,8 @@ angular.module('myApp', ['ionic',
         accessLogged: false, 
         configAction: 'view'
   });
+
+
 
  $stateProvider.state('menu.help1',{
         url: '/help1',
@@ -244,7 +249,9 @@ angular.module('myApp', ['ionic',
         controller: 'TestController', 
         accessLogged: false, 
         configAction: 'view'
-  });    
+  });
+
+
   
 
   /*

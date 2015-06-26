@@ -33,10 +33,9 @@
             <ion-list>
                 <ion-item ng-repeat="item in items" class="item-icon-left">
                   <i class="icon ion-checkmark"></i>
-                  <span class="itemTopRight">{{item.data_relazioni | date:'dd/MM/yyyy' }}</span>
-                  <p><b>Anno:{{item.anno}}-N.{{item.numero}}</b></p>
-                  <p><b>Data:{{item.data_protocollo}}- Classifica {{item.classifica}}</b></p>
-                  <p><b>Oggetto:{{item.about}}</b></p>
+                  <p><b>Anno:{{ ::item.anno}}-N.{{ ::item.numero}}</b></p>
+                  <p><b>Data:{{ ::item.data_protocollo}}- Classifica {{ ::item.classifica}}</b></p>
+                  <p><b>Oggetto:{{ ::item.about}}</b></p>
                   
                                                         
                     <ion-option-button class="button-positive"
