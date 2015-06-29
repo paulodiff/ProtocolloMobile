@@ -399,6 +399,8 @@ module.exports = function (grunt) {
     }
 
 
+    
+
 
   });
 
@@ -436,9 +438,11 @@ module.exports = function (grunt) {
 
   // Template cache generator
   grunt.loadNpmTasks('grunt-angular-templates');
-
   grunt.registerTask('default1', ['ngtemplates']);
 
+  // Preload imagesTemplate cache generator
+  // grunt.loadNpmTasks('grunt-angular-templates');
+  // grunt.registerTask('default1', ['ngtemplates']);
   
 
 

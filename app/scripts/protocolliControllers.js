@@ -12,20 +12,21 @@ angular.module('myApp.controllers')
 //EditItemCtrl--------------------------------------------------------------------------------------
 //EditItemCtrl--------------------------------------------------------------------------------------
 //EditItemCtrl--------------------------------------------------------------------------------------
-.controller('EditItemProtocolloController', ['$scope', '$filter', '$state', '$stateParams', 'Restangular',  'rService', 'Session', '$ionicPopup',   
-                    function( $scope,   $filter,   $state,   $stateParams,   Restangular, rService, Session, $ionicPopup) {
+.controller('EditItemProtocolloController', 
+    ['$scope', '$filter', '$state', '$stateParams', 'Restangular',  'rService', 'Session', '$ionicPopup','$log',   
+                    function( $scope,   $filter,   $state,   $stateParams,   Restangular, rService, Session, $ionicPopup, $log) {
 
     // azione deriva dalla configurazione del controller new/edit
-    console.log('EditItemProtocolloCtrl:  configAction :' +  $state.current.configAction);
-    console.log($state);
-    console.log($stateParams);
+    $log.debug('EditItemProtocolloCtrl:  configAction :' +  $state.current.configAction);
+    $log.debug($state);
+    $log.debug($stateParams);
             
     var configAction = $state.current.configAction;
     $scope.configAction = configAction;
     $scope.item = {};
     $scope.openedPopupDate = false;   
                             
-    console.log(  'EditItemProtocolloController:  load button action :');      
+    $log.debug(  'EditItemProtocolloController:  load button action :');      
                         
     $scope.toggleRight = function() {
         $state.go('menu.list');
@@ -40,11 +41,11 @@ angular.module('myApp.controllers')
                                      
                         
     if (( configAction == 'edit') || ( configAction == 'view') || ( configAction == 'new'))  {
-        console.log('EditItemProtocolloController : get data from serviziAll : ' +  $stateParams.id + ' ACTION ' + configAction );
+        $log.debug('EditItemProtocolloController : get data from serviziAll : ' +  $stateParams.id + ' ACTION ' + configAction );
 
         
         if ( configAction == 'new') {
-            console.log('EditItemProtocolloController : NEW : set ID === 0');
+            $log.debug('EditItemProtocolloController : NEW : set ID === 0');
             $stateParams.id = 0;
         }
         
@@ -52,28 +53,28 @@ angular.module('myApp.controllers')
         // This will query /accounts and return a promise.
         baseAccounts.getList({limit: 50, id_servizi_selezione : $stateParams.id}).then(function(accounts) {
             //$scope.projects = accounts;
-            //console.log(accounts);
+            //$log.debug(accounts);
             $scope.item = accounts[0];
 
-            console.log('EditItemProtocolloController : load data ....');
+            $log.debug('EditItemProtocolloController : load data ....');
             // patch date object
-            console.log('EditItemProtocolloController : patch time object - 1');
-            console.log(accounts[0].da_ora_servizi);
-            console.log(accounts[0].a_ora_servizi);
-            console.log(accounts[0].data_servizi);
-            console.log('EditItemProtocolloController : patch time object - 2 - change format');
+            $log.debug('EditItemProtocolloController : patch time object - 1');
+            $log.debug(accounts[0].da_ora_servizi);
+            $log.debug(accounts[0].a_ora_servizi);
+            $log.debug(accounts[0].data_servizi);
+            $log.debug('EditItemProtocolloController : patch time object - 2 - change format');
             //$scope.item.data_servizi = $filter('date')(accounts[0].data_servizi, "yyyy-MM-dd"); 
             //$scope.item.a_ora_servizi = $filter('date')(($filter('asDate')(accounts[0].a_ora_servizi)), "HH:mm"); 
             //$scope.item.a_ora_servizi = accounts[0].a_ora_servizi.substr(11,5);
             //$scope.item.da_ora_servizi = $filter('date')(accounts[0].da_ora_servizi, "HH:mm"); 
             //$scope.item.da_ora_servizi = accounts[0].da_ora_servizi.substr(11,5);
-            console.log($scope.item.data_servizi);
-            console.log($scope.item.a_ora_servizi);
-            console.log($scope.item.da_ora_servizi);
+            $log.debug($scope.item.data_servizi);
+            $log.debug($scope.item.a_ora_servizi);
+            $log.debug($scope.item.da_ora_servizi);
             
-            console.log('EditItemProtocolloController : elenco_id_volontari');
-            console.log(accounts[0].elenco_id_volontari);
-            //console.log(accounts[0].elenco_id_volontari.split(','));
+            $log.debug('EditItemProtocolloController : elenco_id_volontari');
+            $log.debug(accounts[0].elenco_id_volontari);
+            //$log.debug(accounts[0].elenco_id_volontari.split(','));
 
             /*
             $scope.item.id_utenti = accounts[0].id_utenti;
@@ -85,7 +86,7 @@ angular.module('myApp.controllers')
             */
 
             if ( configAction == 'new') {
-                console.log('EditItemProtocolloController : NEW : INIT DATA');
+                $log.debug('EditItemProtocolloController : NEW : INIT DATA');
                 $scope.item = [];
                 $scope.item.id_utenti = null;
                 $scope.item.lista_volontari_servizi = [];
@@ -99,7 +100,7 @@ angular.module('myApp.controllers')
             // fill tipi documento    
             var tipiDocumentoList = Restangular.all('tipiDocumentoAll');    
             tipiDocumentoList.getList().then(function(data) {
-                console.log('EditItemProtocolloController :' + data );    
+                $log.debug('EditItemProtocolloController :' + data );    
                $scope.tipiDocumentoList = data;     
             });
 
@@ -117,17 +118,17 @@ angular.module('myApp.controllers')
             //##check null data
             if ( (!(typeof $scope.item.id_utenti === "undefined")) && ($scope.item.id_utenti != null)) {
                         
-            console.log('EditItemProtocolloController : populate volontariList per : ' + $scope.item.id_utenti);
+            $log.debug('EditItemProtocolloController : populate volontariList per : ' + $scope.item.id_utenti);
             var volontariList = Restangular.all('volontariAll');
             volontariList.getList({id_volontari_utenti : $scope.item.id_utenti }).then(function(users) {
                     
-            console.log('EditItemProtocolloController : patch accounts');
+            $log.debug('EditItemProtocolloController : patch accounts');
         
 
 
             var fancyArray = [];
             var arrayLength = users.length;
-            console.log('EditItemProtocolloController : patch accounts for ' + arrayLength );
+            $log.debug('EditItemProtocolloController : patch accounts for ' + arrayLength );
             // build array per la lista di controllo fatta secondo il suo template    
             for (var i = 0; i < arrayLength; i++) {
                 //users[i].id = users[i].id_;
@@ -136,14 +137,14 @@ angular.module('myApp.controllers')
                             checked :  (accounts[0].elenco_id_volontari.indexOf(users[i].id) > -1)  ?  true : false ,
                             text : users[i].nome_completo_volontari
                         };
-                console.log(more);
+                $log.debug(more);
                 fancyArray.push(more);
                 //Do something
             }
         
-            console.log(users);
+            $log.debug(users);
             $scope.volontariList = fancyArray;
-            console.log($scope.volontariList);
+            $log.debug($scope.volontariList);
         
             //$scope.volontariList = users;
             });
@@ -156,15 +157,15 @@ angular.module('myApp.controllers')
 
             //fill utenti ------------------------------------------------------------------------------------
             if(Session.isAdmin) {
-                console.log('EditItemProtocolloController : populate list : isAdmin ' + Session.id_utenti + ' ' + Session.nome_breve_utenti);
+                $log.debug('EditItemProtocolloController : populate list : isAdmin ' + Session.id_utenti + ' ' + Session.nome_breve_utenti);
                 var utentiList = Restangular.all('utentiAll');
                     utentiList.getList().then(function(accounts) {
-                    //console.log(accounts);
+                    //$log.debug(accounts);
                     $scope.utentiList = accounts;
                         
                     var fancyArray = [];
                     var arrayLength = accounts.length;
-                    console.log('EditItemProtocolloController : patch accounts for UTENTI LIST FANCY ' + arrayLength );
+                    $log.debug('EditItemProtocolloController : patch accounts for UTENTI LIST FANCY ' + arrayLength );
                     for (var i = 0; i < arrayLength; i++) {
                         //accounts[i].id = accounts[i].id_;
                         var more = {
@@ -172,7 +173,7 @@ angular.module('myApp.controllers')
                                     checked : (accounts[i].id_utenti === $scope.item.id_utenti)  ?  true : false ,
                                     text : accounts[i].nome_breve_utenti
                                 };
-                        console.log(more);
+                        $log.debug(more);
                         fancyArray.push(more);
                         //Do something
                     }   
@@ -180,8 +181,8 @@ angular.module('myApp.controllers')
                         
                 });
             } else {
-                console.log('EditItemProtocolloController : populate list : NOT isAdmin ');
-                console.log(Session.id_utenti);
+                $log.debug('EditItemProtocolloController : populate list : NOT isAdmin ');
+                $log.debug(Session.id_utenti);
                 $scope.utentiList = [];
                 var fancyArray = [];
                 var more = {
@@ -207,8 +208,8 @@ angular.module('myApp.controllers')
  
     // time change event
     $scope.timechanged = function () {
-        console.log('EditItemProtocolloController : Time changed to: ' + $scope.item.da_ora_servizi);
-        console.log('EditItemProtocolloController : Time changed to: ' + $scope.item.a_ora_servizi);
+        $log.debug('EditItemProtocolloController : Time changed to: ' + $scope.item.da_ora_servizi);
+        $log.debug('EditItemProtocolloController : Time changed to: ' + $scope.item.a_ora_servizi);
         $scope.timeCalculated = rService.time_diff($scope.item.da_ora_servizi, $scope.item.a_ora_servizi);
         if ( $scope.timeCalculated < 1 ) {
             $scope.timeCalculated = $scope.timeCalculated + 24;
@@ -218,7 +219,7 @@ angular.module('myApp.controllers')
     //#### DELETE ACTION
     $scope.cancel_action = function(item){
         
-        console.log('EditItemProtocolloController : cancel_action....');
+        $log.debug('EditItemProtocolloController : cancel_action....');
         var confirmPopup = $ionicPopup.confirm({
                 title: 'Messaggio',
                 template: 'Annullare il presente elemento?'
@@ -226,14 +227,14 @@ angular.module('myApp.controllers')
             
         confirmPopup.then(function(res) {
              if(res) {
-                   console.log('EditItemProtocolloController : Deleting....');
-                   console.log(item.id_servizi);
+                   $log.debug('EditItemProtocolloController : Deleting....');
+                   $log.debug(item.id_servizi);
                    Restangular.oneUrl('servizi', '/api1/servizi/' + item.id ).get().then(
                      function(account){
-                            console.log('get!');
-                            console.log(account);
+                            $log.debug('get!');
+                            $log.debug(account);
                             account.annullato_servizi = 1;
-                            console.log('put!');
+                            $log.debug('put!');
                             //Restangular.setBaseUrl('/api1/servizi/' + item.id_servizi);
                             Restangular.setBaseUrl('/api1');
                             account.customPUT({annullato_servizi : 1},item.id, {}, {});
@@ -242,7 +243,7 @@ angular.module('myApp.controllers')
                             $state.go('menu.list');
                    });     
                  } else {
-                   console.log('EditItemProtocolloController : Canceled....');
+                   $log.debug('EditItemProtocolloController : Canceled....');
                  }
         });
     }
@@ -256,7 +257,7 @@ angular.module('myApp.controllers')
                 template: 'Versione di prova - Nessuna modifica'
             });
                 alertPopup.then(function(res) {
-                console.log('Thank you for not eating my delicious ice cream cone');
+                $log.debug('Thank you for not eating my delicious ice cream cone');
             });
 
 
@@ -269,7 +270,7 @@ angular.module('myApp.controllers')
     $scope.save_action = function(item){
         
         // validate form
-        console.log('EditItemProtocolloController:save_action:Start validator : ');
+        $log.debug('EditItemProtocolloController:save_action:Start validator : ');
         
         var msg = '';
     
@@ -281,26 +282,26 @@ angular.module('myApp.controllers')
             msg = 'Selezionare un volontario!';
         }
         
-        console.log('EditItemProtocolloController:save_action:Start validator :data_servizi :' + $scope.item.data_servizi);
-        console.log('EditItemProtocolloController:save_action:Start validator :data_servizi :' + new Date());
+        $log.debug('EditItemProtocolloController:save_action:Start validator :data_servizi :' + $scope.item.data_servizi);
+        $log.debug('EditItemProtocolloController:save_action:Start validator :data_servizi :' + new Date());
         
         if ( (!Session.isAdmin) && ($scope.item.data_servizi < new Date())  ){
             msg = 'Non è possibile selezionare date del servizio precedenti a quelle odierna.';
         }
     
         if (msg != ''){
-            console.log('validate KO');
+            $log.debug('validate KO');
             var alertPopup = $ionicPopup.alert({
                 title: 'Errori di input',
                 template: msg
             });
                 alertPopup.then(function(res) {
-                console.log('Thank you for not eating my delicious ice cream cone');
+                $log.debug('Thank you for not eating my delicious ice cream cone');
             });
             
         } else {
             
-            console.log('validate OK ... saving data ...');
+            $log.debug('validate OK ... saving data ...');
         
             var new_servizio = {
                 //id_volontari_servizi :  $scope.item.id_volontari_servizi,
@@ -315,17 +316,17 @@ angular.module('myApp.controllers')
                 rapporto_servizi :  $scope.item.rapporto_servizi
             };
             
-            console.log('Posting ... ');
-            console.log(new_servizio);
+            $log.debug('Posting ... ');
+            $log.debug(new_servizio);
             
             var baseServizi = Restangular.allUrl('servizi', '/api1/servizi');
             baseServizi.post(new_servizio).then(
             function(msg){
-                console.log("Object saved OK");
-                console.log(msg.id);
+                $log.debug("Object saved OK");
+                $log.debug(msg.id);
                 
                 
-                console.log('Saving detail....data ');
+                $log.debug('Saving detail....data ');
                 
             
                 var alertPopup = $ionicPopup.alert({
@@ -333,14 +334,14 @@ angular.module('myApp.controllers')
                     template: 'Dato inserito con successo!'
                 });
                     alertPopup.then(function(res) {
-                    console.log('ok redirect to id: ' + msg.id);
+                    $log.debug('ok redirect to id: ' + msg.id);
                     $state.go('menu.edit', { id: msg.id });
                 });
 
             }, 
             function(msg) {
-                console.log("There was an error saving ... ");
-                console.log(msg);
+                $log.debug("There was an error saving ... ");
+                $log.debug(msg);
             }
             );
         }
@@ -349,20 +350,20 @@ angular.module('myApp.controllers')
     
     // action new relazione
     $scope.new_relazione_action = function($id) {
-        console.log('Route to newRelazioni con id : ' + $id);
+        $log.debug('Route to newRelazioni con id : ' + $id);
         $state.go('menu.newRelazioni', { id: $id });
     };
 
     // action goto relazione
     $scope.goto_relazione_action = function($id) {
-        console.log('Route to editRelazioni con id : ' + $id);
+        $log.debug('Route to editRelazioni con id : ' + $id);
         $state.go('menu.editRelazioni', { id: $id });
     };
                         
     
     // click on date field
     $scope.popupDate = function($event) {
-        console.log('EditItemCtrl : popupDate');
+        $log.debug('EditItemCtrl : popupDate');
         $event.preventDefault();
         $event.stopPropagation();
         if($scope.openedPopupDate) {
@@ -373,26 +374,26 @@ angular.module('myApp.controllers')
     }; 
     
     $scope.debug_action = function(item){
-        console.log('DEBUG_ACTION');
-        console.log(item);
+        $log.debug('DEBUG_ACTION');
+        $log.debug(item);
     }
                         
                         
-    console.log('EditItemCtrl : watching item.id_utenti');
+    $log.debug('EditItemCtrl : watching item.id_utenti');
     // on change id_utenti 
     $scope.$watch('item.id_utenti', function(newValue, oldValue) {
-        console.log('EditItemCtrl : WATCH! id_utenti changed!' + newValue + ' ' +  oldValue);
+        $log.debug('EditItemCtrl : WATCH! id_utenti changed!' + newValue + ' ' +  oldValue);
         
         if ( (configAction == 'new') &&  (!(typeof newValue === "undefined")) && (newValue != null)) {
             
             var volontariList = Restangular.all('volontariAll');
             volontariList.getList({id_volontari_utenti : newValue }).then(function(users) {
                     
-            console.log('EditItemCtrl : WATCH! get list for value ' + newValue);
+            $log.debug('EditItemCtrl : WATCH! get list for value ' + newValue);
         
             var fancyArray = [];
             var arrayLength = users.length;
-            console.log('EditItemCtrl : WATCH! patch accounts for ' + arrayLength );
+            $log.debug('EditItemCtrl : WATCH! patch accounts for ' + arrayLength );
             // build array per la lista di controllo fatta secondo il suo template    
             for (var i = 0; i < arrayLength; i++) {
                 //users[i].id = users[i].id_;
@@ -402,16 +403,16 @@ angular.module('myApp.controllers')
                             checked :   false ,
                             text : users[i].nome_completo_volontari
                         };
-                console.log(more);
+                $log.debug(more);
                 fancyArray.push(more);
                 //Do something
             }
         
-            console.log(users);
+            $log.debug(users);
             $scope.item.elenco_volontari = '';
             $scope.item.elenco_id_volontari = '';
             $scope.volontariList = fancyArray;
-            console.log($scope.volontariList);
+            $log.debug($scope.volontariList);
         
             //$scope.volontariList = users;
             });
@@ -420,7 +421,7 @@ angular.module('myApp.controllers')
             /*
             var volontariList = Restangular.all('volontariAll');
             volontariList.getList({id_volontari_utenti : newValue }).then(function(accounts) {
-                console.log('EditItemCtrl: RESET volontariList e list_volontari_servizi');
+                $log.debug('EditItemCtrl: RESET volontariList e list_volontari_servizi');
                 $scope.volontariList = accounts;
                 $scope.item.lista_volontari_servizi = [];
             });
@@ -430,7 +431,7 @@ angular.module('myApp.controllers')
     });
                         
     $scope.$watch('item.volontariList1', function(newValue, oldValue){
-        console.log('EditItemCtrl : DA_item.lista_volontari_servizi' + newValue + ' ' +  oldValue);
+        $log.debug('EditItemCtrl : DA_item.lista_volontari_servizi' + newValue + ' ' +  oldValue);
     });                    
                         
                         
@@ -444,11 +445,12 @@ angular.module('myApp.controllers')
 // InfiniteCtrl ---------------------------------------------------------------------------------
 // InfiniteCtrl ---------------------------------------------------------------------------------
 // InfiniteCtrl ---------------------------------------------------------------------------------
-.controller('ListProtocolliController', ['$scope', '$state', '$location', 'Restangular', '$filter', 'Session', '$ionicModal','$ionicSideMenuDelegate','$ionicPopover', '$ionicLoading', 
-                             function($scope,  $state, $location, Restangular, $filter, Session, $ionicModal,   $ionicSideMenuDelegate,  $ionicPopover, $ionicLoading) {
+.controller('ListProtocolliController', 
+    ['$scope', '$state', '$location', 'Restangular', '$filter', 'Session', '$ionicModal','$ionicSideMenuDelegate','$ionicPopover', '$ionicLoading', '$log',
+     function($scope,  $state, $location, Restangular, $filter, Session, $ionicModal,   $ionicSideMenuDelegate,  $ionicPopover, $ionicLoading, $log) {
     
-  console.log('ListProtocolliController>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');                                 
-  console.log('ListProtocolliController start...');
+  $log.debug('ListProtocolliController>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');                                 
+  $log.debug('ListProtocolliController start...');
   
   $scope.totalPages = 0;
   $scope.itemsCount = 0;
@@ -483,13 +485,13 @@ angular.module('myApp.controllers')
                                  
                                  
   $scope.openSortModal = function() {
-        console.log('ListProtocolliController Sort Modal ...');    
+        $log.debug('ListProtocolliController Sort Modal ...');    
         $scope.sortModal.show();
   };
                                  
   $scope.openDetailModal = function(item) {
-        console.log('ListProtocolliController Detail Modal ... :');    
-        console.log(item);
+        $log.debug('ListProtocolliController Detail Modal ... :');    
+        $log.debug(item);
         item.data_servizi = $filter('date')(item.data_servizi, "dd/MM/yyyy"); 
         item.a_ora_servizi = item.a_ora_servizi.substr(11,5);
         item.da_ora_servizi = item.da_ora_servizi.substr(11,5);
@@ -502,9 +504,9 @@ angular.module('myApp.controllers')
   $scope.closeDetailModal = function() {$scope.detailModal.hide();};
                                  
   $scope.saveSort = function() {
-    console.log("ListProtocolliController: SORT MODAL " + this.filterTerm + " sort " + this.sortBy + ' id_selezione :' + this.id_utenti_selezione);
+    $log.debug("ListProtocolliController: SORT MODAL " + this.filterTerm + " sort " + this.sortBy + ' id_selezione :' + this.id_utenti_selezione);
     $scope.filterCriteria.id_utenti_selezione = this.id_utenti_selezione;
-    console.log($scope.filterCriteria);
+    $log.debug($scope.filterCriteria);
     $scope.filterTerm = this.filterTerm;
     $scope.sortBy = this.sortBy;
     $scope.sortModal.hide();
@@ -512,7 +514,7 @@ angular.module('myApp.controllers')
   }
   
   $scope.OpenFilter = function() {
-       console.log("ListProtocolliController: OpenFilter .. sortModal.show()");
+       $log.debug("ListProtocolliController: OpenFilter .. sortModal.show()");
         $scope.sortModal.show();
   };                                 
                                
@@ -530,24 +532,24 @@ angular.module('myApp.controllers')
     anno_selezione: 0
   };
     
-    console.log('ListProtocolliController SERVIZI INIT filterCriteria');
-    console.log($scope.filterCriteria);
+    $log.debug('ListProtocolliController SERVIZI INIT filterCriteria');
+    $log.debug($scope.filterCriteria);
     
     // popola la lista utenti
     var volontariList = Restangular.all('protocolliAll');
                                  
-    console.log('ListProtocolliController #protocolliAll ' + volontariList.getRestangularUrl());                              
+    $log.debug('ListProtocolliController #protocolliAll ' + volontariList.getRestangularUrl());                              
                                  
     volontariList.getList().then(function(accounts) {
-        console.log(accounts);
+        $log.debug(accounts);
         if(Session.isAdmin) {
-            console.log('ListProtocolliController : populate list : isAdmin ');
+            $log.debug('ListProtocolliController : populate list : isAdmin ');
             $scope.utentiList = accounts;
             $scope.utentiList.push({"id_utenti": 0,"nome_breve_utenti": "TUTTI"});
             $scope.id_utenti_selezione = 0;
         } else {
-            console.log('ListProtocolliController : populate list : NOT isAdmin ');
-            console.log(Session.id_utenti);
+            $log.debug('ListProtocolliController : populate list : NOT isAdmin ');
+            $log.debug(Session.id_utenti);
             $scope.id_utenti_selezione = Session.id_utenti;
             $scope.filterCriteria.id_utenti_selezione = Session.id_utenti;
             $scope.utentiList = [];
@@ -559,24 +561,23 @@ angular.module('myApp.controllers')
  
   //The function that is responsible of fetching the result from the server and setting the grid to the new result
   $scope.fetchResult = function () {
-      console.log('ListProtocolliController: fetchResult');
-      console.log('ListProtocolliController: impostazione criteri di filtro');
+      $log.debug('ListProtocolliController: fetchResult');
+      $log.debug('ListProtocolliController: impostazione criteri di filtro');
 
       var offset_page =  ( $scope.currentPage - 1 ) * $scope.pageSize;
       $scope.filterCriteria.start = offset_page;
-      console.log($scope.filterCriteria);
-      
+      $log.debug($scope.filterCriteria);
     
       var serviziList = Restangular.all('protocolliAll');
       
-      console.log('ListProtocolliController...fetchResult - GET Count');
+      $log.debug('ListProtocolliController...fetchResult - GET Count');
       
       // Get items count 
       /*
       $scope.filterCriteria.count = 1; // imposta il conteggio sul server
       serviziList.getList($scope.filterCriteria).then(function(data) {
-            console.log('COUNT: data[0].totalItems:' + data[0].totalItems);
-            console.log(data);
+            $log.debug('COUNT: data[0].totalItems:' + data[0].totalItems);
+            $log.debug(data);
           
             if (data.length > 0) {
                 $scope.totalItems = data[0].totalItems;
@@ -590,17 +591,17 @@ angular.module('myApp.controllers')
       }); // items count
       */      
           // Get items ...  
-      console.log('ListProtocolliController...fetchResult - GET data');
+      $log.debug('ListProtocolliController...fetchResult - GET data');
       $scope.filterCriteria.count = 0; // imposta la selezione standard sul server
       $ionicLoading.show({template: 'Dati in arrivo!' });
       return serviziList.getList($scope.filterCriteria).then(function(data) {
-               console.log(data);
+               $log.debug(data);
           
                 var fast_array = [];
           
-                console.log('ListProtocolliController .. preparing data...');
+                $log.debug('ListProtocolliController .. preparing data...');
                 data.forEach(function (idata) {
-                    //console.log(idata);
+                    //$log.debug(idata);
                     //$scope.items.push(idata);
                     if(idata.annullato_servizi == 1) idata.image_class="icon ion-close-circled assertive";
                     if((idata.id_rapporto_valido_servizio != null) && (idata.annullato_servizi == 0)) idata.image_class="icon ion-share balanced";
@@ -621,12 +622,12 @@ angular.module('myApp.controllers')
                     
                 });
                 
-                console.log(fast_array);
+                $log.debug(fast_array);
           
                 $scope.items = data;
                 //$scope.items = fast_array;
             
-                console.log(' .. data loaded!');
+                $log.debug(' .. data loaded!');
                 $ionicLoading.hide();  
               
           // in caso di errore azzera la lista...      
@@ -636,29 +637,25 @@ angular.module('myApp.controllers')
           
       /*
       $scope.items = serviziList.getList($scope.filterCriteria).$object;
-      console.log('@@@@@@@@@@@@@@@@@@ dati ritornati @@@@@@@@@@@@@@@@@@@');
-      console.log($scope.items);
+      $log.debug('@@@@@@@@@@@@@@@@@@ dati ritornati @@@@@@@@@@@@@@@@@@@');
+      $log.debug($scope.items);
       */
           
  };
       
- 
   //called when navigate to another page in the pagination
   $scope.selectPage = function () {
     var page = $scope.currentPage;
-    console.log('ListProtocolliController: SELECT PAGE ...');  
-    console.log('ListProtocolliController: Page changed to: ' + $scope.currentPage);  
-    console.log('ListProtocolliController...selectPage:' + page);
+    $log.debug('ListProtocolliController: SELECT PAGE ...');  
+    $log.debug('ListProtocolliController: Page changed to: ' + $scope.currentPage);  
+    $log.debug('ListProtocolliController...selectPage:' + page);
     $scope.currentPage = page;
     $scope.filterCriteria.pageNumber = page;
     $scope.fetchResult();
-      
   };
                   
- 
- 
   //manually select a page to trigger an ajax request to populate the grid on page load
-  console.log('ListProtocolliController : selectPage 1');
+  $log.debug('ListProtocolliController : selectPage 1');
   $scope.selectPage();
     
   // COLLECTION REPEAT TEST                               
@@ -672,14 +669,14 @@ angular.module('myApp.controllers')
                          
      // action new relazione
     $scope.new_relazione_action = function($id) {
-        console.log('Route to newRelazioni con id : ' + $id);
+        $log.debug('Route to newRelazioni con id : ' + $id);
         $scope.detailModal.hide();
         $state.go('menu.newProtocollo', { id: $id });
     };
 
     // action goto relazione
     $scope.goto_relazione_action = function($id) {
-        console.log('Route to editRelazioni con id : ' + $id);
+        $log.debug('Route to editRelazioni con id : ' + $id);
         $scope.detailModal.hide();
         $state.go('menu.editProtocollo', { id: $id });
     };                                 
@@ -690,7 +687,7 @@ angular.module('myApp.controllers')
                                  
   // watch change selection    
   $scope.$watch("id_utenti_selezione", function(newValue, oldValue) {
-        console.log('id_utenti changed! New ' + newValue + ' Old ' +  oldValue);
+        $log.debug('id_utenti changed! New ' + newValue + ' Old ' +  oldValue);
         
         if(Session.isAdmin) {
             $scope.filterCriteria.id_utenti_selezione = newValue;
@@ -698,7 +695,7 @@ angular.module('myApp.controllers')
             $scope.filterCriteria.pageNumber = $scope.currentPage;
             $scope.fetchResult();
         } else {
-            console.log('id_utenti changed! New NO ADMIN NO ACTION');
+            $log.debug('id_utenti changed! New NO ADMIN NO ACTION');
         }
         
     });    
@@ -707,11 +704,11 @@ angular.module('myApp.controllers')
     
                                  
     $scope.$watch("data_servizi_selezione", function(newValue, oldValue) {
-        console.log('data_servizi changed!' + newValue + ' ' +  oldValue);
+        $log.debug('data_servizi changed!' + newValue + ' ' +  oldValue);
         
         if(newValue){
-            console.log($filter('date')(newValue,'MM'));
-            console.log($filter('date')(newValue,'yyyy'));
+            $log.debug($filter('date')(newValue,'MM'));
+            $log.debug($filter('date')(newValue,'yyyy'));
             $scope.filterCriteria.mese_selezione = $filter('date')(newValue,'MM');
             $scope.filterCriteria.anno_selezione = $filter('date')(newValue,'yyyy');
         } else {
@@ -726,7 +723,7 @@ angular.module('myApp.controllers')
     
     
     $scope.popupDate = function($event) {
-        console.log('popupDate');
+        $log.debug('popupDate');
         $event.preventDefault();
         $event.stopPropagation();
         if($scope.openedPopupDate) {
@@ -740,47 +737,47 @@ angular.module('myApp.controllers')
                                  
     // callback for ng-click 'editUser':
     $scope.editItem = function (itemId) {
-        console.log('editItem : change state');
-        console.log(itemId);
+        $log.debug('editItem : change state');
+        $log.debug(itemId);
         $location.path('/menu/edit/' + itemId);
     };
     
     // callback for ng-click 'editUser':
     $scope.editItem = function (itemId) {
-        console.log('viewItem : change state');
-        console.log(itemId);
+        $log.debug('viewItem : change state');
+        $log.debug(itemId);
         $location.path('/menu/view/' + itemId);
     };    
                                  
                                  
     // callback for ng-click 'editUser':
     $scope.editRelazioni = function (itemId) {
-        console.log('/menu/editItem');
+        $log.debug('/menu/editItem');
         $location.path('/menu/editRelazioni/' + itemId);
     };
     
     
      // callback for ng-click 'editUser':
     $scope.newRelazioni = function () {
-        console.log('/menu/new');
+        $log.debug('/menu/new');
         $location.path('/menu/new');
     };
     
     $scope.debug_action = function(item){
-        console.log('DEBUG_ACTION');
-        console.log($scope);
+        $log.debug('DEBUG_ACTION');
+        $log.debug($scope);
     };
                    
 
      // callback for ng-click 'editUser':
     $scope.newProtocollo = function () {
-        console.log('newProtocollo ... ');
+        $log.debug('newProtocollo ... ');
         $state.go('menu.newProtocollo');
     };
     
 
     $scope.newItemFromPopover = function () {
-        console.log('/menu/newProtocollo');
+        $log.debug('/menu/newProtocollo');
         $scope.popover.remove();
         //$location.path('/menu/newProtocollo');
         //$state.go('menu.newProtocollo', { id: $id });
@@ -788,7 +785,7 @@ angular.module('myApp.controllers')
     };
                         
     $scope.OpenFilterFromPopover = function() {
-        console.log('OpenFilterFromPopover');
+        $log.debug('OpenFilterFromPopover');
         $scope.popover.hide();
         $scope.sortModal.show();
     };                                   
@@ -811,7 +808,7 @@ angular.module('myApp.controllers')
     //<button class="button button-icon button-clear ion-plus-circled" ng-click="newRelazioni()"></button>
     //</ion-nav-buttons>
                                  
-    console.log(templatePopover);                                          
+    $log.debug(templatePopover);                                          
                              
     $scope.popover = $ionicPopover.fromTemplate(templatePopover,{ scope: $scope });                                     
                                           

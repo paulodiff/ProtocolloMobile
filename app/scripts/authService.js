@@ -41,20 +41,20 @@ angular.module('myApp.services', [])
   }])
 
 
-.factory('AuthService',           ['ENV', '$http', 'Session', '$rootScope', 
-                         function (ENV,  $http,   Session,   $rootScope) {
+.factory('AuthService',           ['ENV', '$http', 'Session', '$rootScope', '$log',
+                         function ( ENV,   $http,   Session,   $rootScope,   $log) {
   return {
 
     login: function (credentials) {
 
-      console.log( $rootScope.base_url + '/api2/login');
+      $log.debug( $rootScope.base_url + '/api2/login');
         
       return $http
         .post($rootScope.base_url + '/api2/login', credentials)
         .then(function (res) {
-            console.log('AuthService login then');
-            console.log(res);
-            console.log(res.data[0].id_utenti);
+            $log.debug('AuthService login then');
+            $log.debug(res);
+            $log.debug(res.data[0].id_utenti);
             Session.create(res.data[0].id_utenti, res.data[0].nome_breve_utenti, res.data[0].token,  res.data[0].isadmin_utenti);
         });
 
@@ -74,6 +74,7 @@ angular.module('myApp.services', [])
             console.log(err);
         });
 */
+
     },
       
     logout: function (credentials) {
@@ -125,5 +126,3 @@ angular.module('myApp.services', [])
   };
   return this;
 });
-
-

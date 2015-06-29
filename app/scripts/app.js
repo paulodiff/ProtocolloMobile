@@ -16,6 +16,14 @@ angular.module('myApp', ['ionic',
                          'myApp.config',
                          'myApp.mockBackend',
                          'myApp.mockService'])
+
+
+// enable disable LOG
+.config(function($logProvider){
+    $logProvider.debugEnabled(false);
+})
+
+
 // ui.router configuration
 .config(  ['$stateProvider', '$urlRouterProvider',
   function($stateProvider,    $urlRouterProvider) {
@@ -55,7 +63,8 @@ angular.module('myApp', ['ionic',
             accessLogged: false 
     });
  
- /*
+
+   /*
     $stateProvider.state('menu.report',{
         url: '/report',
         views: {
@@ -147,6 +156,9 @@ angular.module('myApp', ['ionic',
         accessLogged: true, 
         configAction: 'new'
   });
+
+
+
 
 /*    
     // rapporti
@@ -243,7 +255,9 @@ angular.module('myApp', ['ionic',
         accessLogged: false, 
         configAction: 'view'
   });
-  $stateProvider.state('test',{
+
+
+ $stateProvider.state('test',{
         url: '/test',
         templateUrl: 'templates/testM.html', 
         controller: 'TestController', 
@@ -251,8 +265,23 @@ angular.module('myApp', ['ionic',
         configAction: 'view'
   });
 
+ // Preload templates FAKE
 
-  
+ $stateProvider.state('fake1',{
+        url: '/fake1',
+        templateUrl: 'templates/fancy-select.html', 
+        controller: 'TestController', 
+        accessLogged: false, 
+        configAction: 'view'
+  });
+
+ $stateProvider.state('fake2',{
+        url: '/fake2',
+        templateUrl: 'templates/fancy-select-items.html', 
+        controller: 'TestController', 
+        accessLogged: false, 
+        configAction: 'view'
+  });  
 
   /*
   RestangularProvider.setBaseUrl('/apiQ');

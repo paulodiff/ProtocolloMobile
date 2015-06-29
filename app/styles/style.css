@@ -1,6 +1,16 @@
 /* Empty. Add your own CSS if you like */
 
 
+/* Image preloader */
+
+.preload-01 { background: url("../images/logo_comune_80x80.gif") no-repeat -9999px -9999px; }  
+.preload-02 { background: url("../images/logo_rimini.png") no-repeat -9999px -9999px; }  
+.preload-03 { background: url("../images/logo_rimini.png") no-repeat -9999px -9999px; }  
+/* .preload-03 { background: url(image-03.png) no-repeat -9999px -9999px; } */
+/* .preload-04 { background: url(image-04.png) no-repeat -9999px -9999px; } */
+/* .preload-05 { background: url(image-05.png) no-repeat -9999px -9999px; } */
+
+
 /* ionic fancy select :: http://codepen.io/mhartington/pen/CImqy */
 
 .fancy-select .list {  margin: -1px 0; }

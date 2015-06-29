@@ -8,12 +8,12 @@ angular.module('myApp.controllers')
 
 
 .controller("AppCtrl", 
-                    ['$scope', '$rootScope', 'AuthService', 'Session', 'Restangular',  '$state', '$ionicPopup','$ionicSideMenuDelegate', 'ENV',
-            function($scope,   $rootScope,   AuthService,   Session,   Restangular,    $state,   $ionicPopup,  $ionicSideMenuDelegate,   ENV) {
+                    ['$scope', '$rootScope', 'AuthService', 'Session', 'Restangular',  '$state', '$ionicPopup','$ionicSideMenuDelegate', 'ENV', '$log',
+            function($scope,   $rootScope,   AuthService,   Session,   Restangular,    $state,   $ionicPopup,  $ionicSideMenuDelegate,   ENV, $log) {
 
                 
-        console.log("AppCtrl ... start");
-        console.log(ENV);
+        $log.debug("AppCtrl ... start");
+        $log.debug(ENV);
                 
                 
         $scope.currentUser = null;
@@ -21,16 +21,16 @@ angular.module('myApp.controllers')
         $scope.isAuthorized = AuthService.isAuthorized;
     
         $scope.go = function ( path ) {
-            console.log("AppCtrl ... go");
+            $log.debug("AppCtrl ... go");
             $state.go(path);
         };
                 
         if(window.ionic){
-            console.log('IONIC defined! : ' + window.ionic.version);
+            $log.debug('IONIC defined! : ' + window.ionic.version);
         }
                 
         $scope.toggleLeft = function() {
-             console.log("AppCtrl ... toggleLeft");
+             $log.debug("AppCtrl ... toggleLeft");
              $ionicSideMenuDelegate.toggleLeft($scope.$$childHead);
         };
           
@@ -39,7 +39,7 @@ angular.module('myApp.controllers')
         $rootScope.base_url = ENV.apiEndpoint;
 
         if (ENV.name === 'development') {        
-            console.log("AppCtrl ... development ... ");
+            $log.debug("AppCtrl ... development ... ");
             Session.create(1, 'PROVINCIA', ENV.token,  true);
             $scope.currentUser = ENV.userName;
             $scope.isAuthorized = ENV.isAuthorized;
@@ -47,17 +47,17 @@ angular.module('myApp.controllers')
         }
   
                 
-        console.log('WEB SERVICE WEB URL  : ' + $rootScope.base_url);
-        console.log('Restangular set base Url '+ $rootScope.base_url + '/apiQ' );
+        $log.debug('WEB SERVICE WEB URL  : ' + $rootScope.base_url);
+        $log.debug('Restangular set base Url '+ $rootScope.base_url + '/apiQ' );
         Restangular.setBaseUrl($rootScope.base_url + '/apiQ');
                 
         
         //AUTH_EVENTS.loginFailed
     
         $rootScope.$on(ENV.AUTH_EVENTS.loginSuccess , function (event, next) {
-            console.log('AppCtrl: AUTH_EVENTS.loginSuccess ... ');
-            console.log(event);
-            console.log(next);
+            $log.debug('AppCtrl: AUTH_EVENTS.loginSuccess ... ');
+            $log.debug(event);
+            $log.debug(next);
             $scope.currentUser = Session.nome_breve_utenti;
             //Restangular.setDefaultRequestParams({ apiKey: Session.token });
             //$state.go('menu.list');
@@ -66,9 +66,9 @@ angular.module('myApp.controllers')
                 
                 
         $rootScope.$on(ENV.AUTH_EVENTS.logoutSuccess , function (event, next) {
-            console.log('AppCtrl: AUTH_EVENTS.logourSuccess ... ');
-            console.log(event);
-            console.log(next);
+            $log.debug('AppCtrl: AUTH_EVENTS.logourSuccess ... ');
+            $log.debug(event);
+            $log.debug(next);
             $scope.currentUser = '';
             Restangular.setDefaultRequestParams({ apiKey: '' });
             $state.go('menu.home');
@@ -76,9 +76,9 @@ angular.module('myApp.controllers')
                 
    
         $rootScope.$on(ENV.AUTH_EVENTS.loginFailed, function (event, next) {
-            console.log('AppCtrl: AUTH_EVENTS.loginFailed ... ');
-            console.log(event);
-            console.log(next);
+            $log.debug('AppCtrl: AUTH_EVENTS.loginFailed ... ');
+            $log.debug(event);
+            $log.debug(next);
              
             
             var alertPopup = $ionicPopup.alert({
@@ -86,7 +86,7 @@ angular.module('myApp.controllers')
                 template: 'Immettere nome utente e password corrette'
             });
            alertPopup.then(function(res) {
-                console.log('AppCtrl : Login errato OK');
+                $log.debug('AppCtrl : Login errato OK');
                 $state.go('menu.home');
            });
         }); 
@@ -94,9 +94,9 @@ angular.module('myApp.controllers')
     
     
          $rootScope.$on(ENV.AUTH_EVENTS.notAuthenticated, function (event, next) {
-            console.log('AUTH_EVENTS.notAuthenticated ... ');
-            console.log(event);
-            console.log(next);
+            $log.debug('AUTH_EVENTS.notAuthenticated ... ');
+            $log.debug(event);
+            $log.debug(next);
             $scope.currentUser = Session.nome_breve_utenti;
             
              var alertPopup = $ionicPopup.alert({
@@ -104,7 +104,7 @@ angular.module('myApp.controllers')
                 template: 'Immettere nome utente e password'
                 });
             alertPopup.then(function(res) {
-             console.log('AppCtrl: alertPopup : OK');
+             $log.debug('AppCtrl: alertPopup : OK');
                 $state.go('menu.home');
            });
            
@@ -113,16 +113,16 @@ angular.module('myApp.controllers')
         }); 
     
         $rootScope.$on('$stateChangeStart', function (event, next) {
-            console.log('$stateChangeStart: ' + next.accessLogged);
+            $log.debug('$stateChangeStart: ' + next.accessLogged);
                         
             if(next.accessLogged){
-                console.log('$stateChangeStart: check if isAuthenticated : ' + AuthService.isAuthenticated());
+                $log.debug('$stateChangeStart: check if isAuthenticated : ' + AuthService.isAuthenticated());
                 if(!AuthService.isAuthenticated()){
                     event.preventDefault();    
                     $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
                 }
             } else {
-                console.log('$stateChangeStart: PATH free');
+                $log.debug('$stateChangeStart: PATH free');
             }
             
             /*
@@ -146,14 +146,14 @@ angular.module('myApp.controllers')
 // LoginController ------------------------------------------------------------------------------------
 // LoginController ------------------------------------------------------------------------------------
 .controller('LoginController', 
-                    [ '$scope', '$rootScope', 'ENV', 'AuthService','$state',
-            function ($scope, $rootScope, ENV, AuthService,$state) {
+                    [ '$scope', '$rootScope', 'ENV', 'AuthService','$state', '$log',
+            function ($scope, $rootScope, ENV, AuthService,$state,$log) {
                 
-    console.log('LoginController...');
-    console.log('LoginController...currentUser:' + $scope.currentUser );
+    $log.debug('LoginController...');
+    $log.debug('LoginController...currentUser:' + $scope.currentUser );
     
 
-    console.log('LoginController...hide nav bar');
+    $log.debug('LoginController...hide nav bar');
     /*
     document.getElementsByTagName('ion-nav-bar')[0].style.display = 'none';
     document.getElementsByTagName('ion-nav-bar')[1].style.display = 'none';
@@ -178,18 +178,18 @@ angular.module('myApp.controllers')
   //$scope.navTitle = '<img style="height:100px; width:auto;" src="img/logo2.jpg" />';
              
     $scope.goto_help = function($id) {
-        console.log('HelpController : Route to login');
+        $log.debug('HelpController : Route to login');
         $state.go('menu.help');
     };     
                 
     $scope.fullscreenOn = function(){
-        console.log('AboutController : fullscreenOn');
+        $log.debug('AboutController : fullscreenOn');
         //console.log('AboutController : fullscreen enabled? : ' + screenfull.enabled);
         //screenfull.request();
     };
 
     $scope.fullscreenOff = function(){
-        console.log('AboutController : fullscreenOff');
+        $log.debug('AboutController : fullscreenOff');
         //console.log('AboutController : fullscreen enabled? : ' + screenfull.enabled);
         //screenfull.exit();
     };            
@@ -197,8 +197,8 @@ angular.module('myApp.controllers')
                 
                 
   $scope.login = function (credentials) {
-      console.log('login:calling .. AuthService. ..');
-      console.log(credentials);
+      $log.debug('login:calling .. AuthService. ..');
+      $log.debug(credentials);
 
     AuthService.login(credentials).then(function () {
       $rootScope.$broadcast(ENV.AUTH_EVENTS.loginSuccess);
@@ -209,8 +209,8 @@ angular.module('myApp.controllers')
   };
 
     $scope.logout = function (credentials) {
-      console.log('logout:calling .. AuthService. ..');
-      console.log(credentials);
+      $log.debug('logout:calling .. AuthService. ..');
+      $log.debug(credentials);
     AuthService.logout(credentials).then(function () {
       $rootScope.$broadcast(ENV.AUTH_EVENTS.logoutSuccess);
     }, function () {
@@ -223,10 +223,10 @@ angular.module('myApp.controllers')
 
 // AboutController ------------------------------------------------------------------------------------
 .controller('AboutController', 
-            [ '$scope', '$rootScope', 'ENV', 'AuthService','Session','$location','$ionicLoading','$http', '$ionicPopup',
-            function ($scope, $rootScope, ENV, AuthService, Session, $location, $ionicLoading, $http, $ionicPopup ) {
-    console.log('AboutController...');
-    console.log(Session);
+            [ '$scope', '$rootScope', 'ENV', 'AuthService','Session','$location','$ionicLoading','$http', '$ionicPopup','$log',
+            function ($scope, $rootScope, ENV, AuthService, Session, $location, $ionicLoading, $http, $ionicPopup,$log ) {
+    $log.debug('AboutController...');
+    $log.debug(Session);
     $scope.navTitle = Session.nome_breve_utenti;
     $scope.base_url = $rootScope.base_url;
                 
@@ -242,49 +242,49 @@ angular.module('myApp.controllers')
                
                 
     $scope.fullscreenOn = function(){
-        console.log('AboutController : fullscreenOn');
+        $log.debug('AboutController : fullscreenOn');
         //console.log('AboutController : fullscreen enabled? : ' + screenfull.enabled);
         //screenfull.request();
     };
 
     $scope.fullscreenOff = function(){
-        console.log('AboutController : fullscreenOff');
+        $log.debug('AboutController : fullscreenOff');
         //console.log('AboutController : fullscreen enabled? : ' + screenfull.enabled);
         //screenfull.exit();
     };
                 
     $scope.test_connection = function(){
-        console.log('AboutController : test_connection');
+        $log.debug('AboutController : test_connection');
         $ionicLoading.show({   template: 'Loading...'   }); 
       
         $http({method: 'GET', url: $rootScope.base_url + '/mv/testconnection'}).
         success(function(data, status, headers, config) {
-                console.log($rootScope.base_url + '/mv/testconnection');
-                console.log(data);
-                console.log(status);
-                console.log(headers);
-                console.log(config);
+                $log.debug($rootScope.base_url + '/mv/testconnection');
+                $log.debug(data);
+                $log.debug(status);
+                $log.debug(headers);
+                $log.debug(config);
             
                 var alertPopup = $ionicPopup.alert({
                 title: 'OK!',
                 template: 'Test di connessione ok'
                 });
                     alertPopup.then(function(res) {
-                    console.log('Quit popup');
+                    $log.debug('Quit popup');
                 });
         }).
         error(function(data, status, headers, config) {
-                console.log($rootScope.base_url + '/mv/testconnection');
-                console.log(data);
-                console.log(status);
-                console.log(headers);
-                console.log(config);
+                $log.debug($rootScope.base_url + '/mv/testconnection');
+                $log.debug(data);
+                $log.debug(status);
+                $log.debug(headers);
+                $log.debug(config);
                 var alertPopup = $ionicPopup.alert({
                 title: 'Errori!',
                 template: 'Test di connessione FALLITO'
                 });
                     alertPopup.then(function(res) {
-                    console.log('Quit popup');
+                    $log.debug('Quit popup');
                 });
         });
         
@@ -299,14 +299,14 @@ angular.module('myApp.controllers')
 
 // HelpController ------------------------------------------------------------------------------------
 .controller('HelpController', 
-            [ '$scope', '$rootScope', 'ENV', 'AuthService','Session','$location','$ionicLoading','$http', '$ionicPopup','$ionicSlideBoxDelegate','$state',
-            function ($scope, $rootScope, ENV, AuthService, Session, $location, $ionicLoading, $http, $ionicPopup,$ionicSlideBoxDelegate,$state ) {
-    console.log('HelpController...');
+            [ '$scope', '$rootScope', 'ENV', 'AuthService','Session','$location','$ionicLoading','$http', '$ionicPopup','$ionicSlideBoxDelegate','$state','$log',
+            function ($scope, $rootScope, ENV, AuthService, Session, $location, $ionicLoading, $http, $ionicPopup,$ionicSlideBoxDelegate,$state,$log ) {
+    $log.debug('HelpController...');
     
                 
         // action new relazione
     $scope.goto_login = function($id) {
-        console.log('HelpController : Route to login');
+        $log.debug('HelpController : Route to login');
         $state.go('menu.login');
     };            
     
