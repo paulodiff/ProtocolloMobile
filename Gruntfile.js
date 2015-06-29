@@ -14,6 +14,8 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -382,7 +384,21 @@ module.exports = function (grunt) {
           dest: '.temp/concat/<%= yeoman.scripts %>'
         }]
       }
+    },
+
+    // ngtemplate
+    ngtemplates: {
+        myapp: {
+            options: {
+                base: "web",
+                module: "app",
+            },
+            src: "app/templates/**/*.html",
+            dest: "www/scripts/templates.js"
+        }
     }
+
+
 
   });
 
@@ -417,6 +433,15 @@ module.exports = function (grunt) {
   // over to <%= yeoman.dist %>/. Last step is running cordova prepare so we can refresh the ripple
   // browser tab to see the changes. Technically ripple runs `cordova prepare` on browser
   // refreshes, but at this time you would need to re-run the emulator to see changes.
+
+  // Template cache generator
+  grunt.loadNpmTasks('grunt-angular-templates');
+
+  grunt.registerTask('default1', ['ngtemplates']);
+
+  
+
+
   grunt.registerTask('ripple', ['wiredep', 'newer:copy:app', 'ripple-emulator']);
   grunt.registerTask('ripple-emulator', function () {
     grunt.config.set('watch', {
