@@ -7,6 +7,7 @@
 angular.module('myApp', ['ionic',
                          'ui.router',
                          'ngResource',
+                         'ngCordova',
                          'restangular',
                          'ngMockE2E',
                          'myApp.filters',
@@ -244,12 +245,12 @@ angular.module('myApp', ['ionic',
 
 
 
- $stateProvider.state('menu.help1',{
-        url: '/help1',
+ $stateProvider.state('menu.cordova',{
+        url: '/cordova',
          views: {
                 'menuContent' :{
-                    templateUrl: "templates/activity.html",
-                    controller: "HelpController"
+                    templateUrl: "templates/playlists.html",
+                    controller: "PlaylistsCtrl"
                 }
             },
         accessLogged: false, 
