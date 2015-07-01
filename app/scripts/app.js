@@ -10,6 +10,7 @@ angular.module('myApp', ['ionic',
                          'ngCordova',
                          'restangular',
                          'ngMockE2E',
+                         'uiGmapgoogle-maps',
                          'myApp.filters',
                          'myApp.services',
                          'myApp.directives',
@@ -24,6 +25,15 @@ angular.module('myApp', ['ionic',
     $logProvider.debugEnabled(true);
 })
 
+
+// config uiGmapgoogle-maps
+.config(function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyCbkb0dHm-FqvVSf44vd8hr4l6rDHRxGzE',
+        v: '3.17',
+        libraries: 'weather,geometry,visualization'
+    });
+})
 
 // ui.router configuration
 .config(  ['$stateProvider', '$urlRouterProvider',

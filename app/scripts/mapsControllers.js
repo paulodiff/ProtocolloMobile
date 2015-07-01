@@ -2,12 +2,18 @@
 
 /* Controllers */
 
+// http://angular-ui.github.io/angular-google-maps
+
 //angular.module('myApp.controllers', [])
 angular.module('myApp.controllers')
 
 .controller('MapsController', 
             ['$scope', '$ionicLoading', '$compile', '$log',
     function($scope,    $ionicLoading, $compile, $log) {
+
+      
+      $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+
 
 
       function initialize() {
@@ -21,6 +27,9 @@ angular.module('myApp.controllers')
           zoom: 16,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
+
+
+
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
         
         //Marker + infowindow + angularjs compiled ng-click
@@ -44,10 +53,19 @@ angular.module('myApp.controllers')
         $scope.map = map;
       }
 
-      google.maps.event.addDomListener(window, 'load', initialize);
+      /*
+      $log.debug('MapsController:initialize:load');
+
+      if (google){
+        google.maps.event.addDomListener(window, 'load', initialize);
+      } else {
+        $log.debug('MapsController:google not ready');
+      }
+      */
       
       $scope.centerOnMe = function() {
         if(!$scope.map) {
+          $log.debug('MapsController:map not ready');
           return;
         }
 
@@ -57,7 +75,22 @@ angular.module('myApp.controllers')
         });
 
         navigator.geolocation.getCurrentPosition(function(pos) {
-          $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+
+          $log.debug('Setting map ...')
+          $scope.map = {center: {latitude: pos.coords.latitude, longitude: pos.coords.longitude }, zoom: 14 };
+
+          $log.debug('Setting marker ...')
+          $scope.marker = {
+                id: 0,
+                coords: {
+                  latitude: pos.coords.latitude,
+                  longitude: pos.coords.longitude
+                },
+                options: { draggable: false }
+          }
+
+
+          //$scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
           $ionicLoading.hide();
         }, function(error) {
           alert('Unable to get location: ' + error.message);
