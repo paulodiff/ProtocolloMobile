@@ -21,7 +21,7 @@ angular.module('myApp', ['ionic',
 
 // enable disable LOG
 .config(function($logProvider){
-    $logProvider.debugEnabled(false);
+    $logProvider.debugEnabled(true);
 })
 
 
@@ -243,7 +243,17 @@ angular.module('myApp', ['ionic',
         configAction: 'view'
   });
 
-
+ $stateProvider.state('menu.maps',{
+        url: '/maps',
+         views: {
+                'menuContent' :{
+                    templateUrl: "templates/mapsM.html",
+                    controller: "MapsController"
+                }
+            },
+        accessLogged: false, 
+        configAction: 'view'
+  });
 
  $stateProvider.state('menu.cordova',{
         url: '/cordova',

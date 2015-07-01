@@ -1,0 +1,20 @@
+<ion-view>
+  <ion-nav-bar class="bar-royal">
+	<ion-nav-title class="bar-dark">Maps</ion-nav-title>
+    <ion-nav-buttons side="left">
+      <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right" >
+      <button class="button button-icon ion-more" ng-click="popover.show($event)"></button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+
+
+
+<ion-content>
+      <div id="map" data-tap-disabled="true"></div>
+</ion-content>
+<ion-footer-bar class="bar-dark">
+      <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate">Find Me</a>
+</ion-footer-bar>
+</ion-view>
