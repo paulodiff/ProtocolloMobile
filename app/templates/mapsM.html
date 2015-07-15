@@ -13,10 +13,24 @@
 
 <ion-content>
       <ui-gmap-google-map center='map.center' zoom='map.zoom' draggable="true" options="options">
-      	<ui-gmap-marker coords="marker.coords" options="marker.options" idkey="marker.id">
+
+      <!--
+      	<ui-gmap-marker coords="staticMarker.coords" 
+                        options="staticMarker.options" 
+                        events="staticMarker.events" 
+                        idKey="staticMarker.id">
+        </ui-gmap-marker>
+       --> 
+        <ui-gmap-markers models="randomMarkers" 
+                         coords="'self'" 
+                         options="'options'"
+                         click="onMarkerClicked"
+                         modelsbyref="true">
+        </ui-gmap-markers>
+      
       </ui-gmap-google-map>
 </ion-content>
 <ion-footer-bar class="bar-dark">
-      <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate">Find Me</a>
+      <a ng-click="refreshMap()" class="button button-icon icon ion-navigate">Aggiorna dati</a>
 </ion-footer-bar>
 </ion-view>

@@ -169,7 +169,17 @@ angular.module('myApp', ['ionic',
   });
 
 
-
+    $stateProvider.state('menu.listSegnalazioni',{
+        url: '/listSegnalazioni',
+         views: {
+                'menuContent' :{
+                    templateUrl: "templates/ListSegnalazioniM.html",
+                    controller: "ListSegnalazioniController"
+                }
+            },
+        accessLogged: true, 
+        configAction: 'view'
+    });   
 
 /*    
     // rapporti

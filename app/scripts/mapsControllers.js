@@ -8,98 +8,189 @@
 angular.module('myApp.controllers')
 
 .controller('MapsController', 
-            ['$scope', '$ionicLoading', '$compile', '$log',
-    function($scope,    $ionicLoading, $compile, $log) {
+            ['$scope', '$ionicLoading', '$compile', '$log', 'uiGmapGoogleMapApi', '$timeout',
+    function($scope,    $ionicLoading,   $compile,   $log,   uiGmapGoogleMapApi,   $timeout) {
 
-      
-      $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+      $scope.staticMarker = [];
+      $scope.randomMarkers = [];
 
 
+      uiGmapGoogleMapApi.then(function(maps) {
+        $log.log('uiGmapGoogleMapApi then . ...');
 
-      function initialize() {
 
-        $log.debug('MapsController:initialize');
+        $scope.map = { center: { latitude: 44.0357100000, longitude: 12.5573200000 }, zoom: 12 };
 
-        var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+$scope.randomMarkers = [
+        {
+          id: 1,
+          //icon: 'assets/images/blue_marker.png',
+          latitude: 44.0668100000,
+          longitude: 12.5173200000,
+          showWindow: false,
+          options: {
+            labelContent: '0152',
+            labelAnchor: "22 0",
+            labelClass: "marker-labels",
+            draggable: false
+          }
+        },
+        {
+          id: 2,
+          //icon: 'assets/images/blue_marker.png',
+          latitude: 44.0768100000,
+          longitude: 12.5473200000,
+          showWindow: false,
+          options: {
+            labelContent: '0022',
+            labelAnchor: "22 0",
+            labelClass: "marker-labels",
+            draggable: false
+          }
+        },
+        {
+          id: 3,
+          //icon: 'assets/images/blue_marker.png',
+          latitude: 44.0358300000,
+          longitude: 12.5573500000,
+          showWindow: false,
+          options: {
+            labelContent: '0025',
+            labelAnchor: "22 0",
+            labelClass: "marker-labels",
+            draggable: false
+          }
+        }
         
-        var mapOptions = {
-          center: myLatlng,
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+      ];
+
+/*
+
+        $scope.staticMarker = {
+          id: 0,
+          title : 'Title',
+          coords: {
+            latitude: 44.0358300000,
+            longitude: 12.5573500000
+          },
+          options: { 
+            draggable: true,
+            labelContent: 'Markers id 3',
+            labelAnchor: "26 0",
+            labelClass: "marker-labels"
+          },
+          events: {
+            dragend: function (marker, eventName, args) {
+              $log.log('marker dragend');
+              $log.log(marker.getPosition().lat());
+              $log.log(marker.getPosition().lng());
+            }
+          }
         };
 
+*/
 
 
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        
-        //Marker + infowindow + angularjs compiled ng-click
-        var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
-        var compiled = $compile(contentString)($scope);
+      });
 
-        var infowindow = new google.maps.InfoWindow({
-          content: compiled[0]
-        });
-
-        var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: 'Uluru (Ayers Rock)'
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.open(map,marker);
-        });
-
-        $scope.map = map;
-      }
-
-      /*
-      $log.debug('MapsController:initialize:load');
-
-      if (google){
-        google.maps.event.addDomListener(window, 'load', initialize);
-      } else {
-        $log.debug('MapsController:google not ready');
-      }
-      */
-      
-      $scope.centerOnMe = function() {
-        if(!$scope.map) {
-          $log.debug('MapsController:map not ready');
-          return;
-        }
-
-        $scope.loading = $ionicLoading.show({
-          content: 'Getting current location...',
-          showBackdrop: false
-        });
-
-        navigator.geolocation.getCurrentPosition(function(pos) {
-
-          $log.debug('Setting map ...')
-          $scope.map = {center: {latitude: pos.coords.latitude, longitude: pos.coords.longitude }, zoom: 14 };
-
-          $log.debug('Setting marker ...')
-          $scope.marker = {
-                id: 0,
-                coords: {
-                  latitude: pos.coords.latitude,
-                  longitude: pos.coords.longitude
-                },
-                options: { draggable: false }
-          }
-
-
-          //$scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-          $ionicLoading.hide();
-        }, function(error) {
-          alert('Unable to get location: ' + error.message);
-        });
-      };
-      
       $scope.clickTest = function() {
         alert('Example of infowindow with ng-click')
       };
+
+
+      $scope.refreshMap = function () {
+
+        $log.log('refreshMap ...');
+
+    $ionicLoading.show({template: 'Aggiornamento dati'});
+
+
+$timeout(function () {
+    $ionicLoading.hide();
+    
+
+
+        var lt1 = 44.09 + (Math.floor(Math.random() * 9) + 1) * 0.01;
+        var ln1 = 12.59 + (Math.floor(Math.random() * 9) + 1) * 0.01;
+
+        $log.log('refreshMap ... ' + lt1 + ' # ' + ln1 );
+
+        //optional param if you want to refresh you can pass null undefined or false or empty arg
+        $scope.randomMarkers = [
+        {
+          id: 1,
+          //icon: 'assets/images/blue_marker.png',
+          latitude: 44.0357100000,
+          longitude: 12.5763200000,
+          showWindow: false,
+          options: {
+            labelContent: '00012',
+            labelAnchor: "22 0",
+            labelClass: "marker-labels",
+            draggable: false
+          }
+        },
+        {
+          id: 2,
+          //icon: 'assets/images/blue_marker.png',
+          latitude: 44.0798100000,
+          longitude: 12.5173200000,
+          showWindow: false,
+          options: {
+            labelContent: '00024',
+            labelAnchor: "22 0",
+            labelClass: "marker-labels",
+            draggable: false
+          }
+        },
+        {
+          id: 3,
+          //icon: 'assets/images/blue_marker.png',
+          latitude: 44.0358300000,
+          longitude: 12.5573500000,
+          showWindow: false,
+          options: {
+            labelContent: '00025',
+            labelAnchor: "22 0",
+            labelClass: "marker-labels",
+            draggable: false
+          }
+        },
+        {
+          id: 4,
+          //icon: 'assets/images/blue_marker.png',
+          latitude: 44.0903500000,
+          longitude: 12.5343200000,
+          showWindow: false,
+          options: {
+            labelContent: '00027',
+            labelAnchor: "22 0",
+            labelClass: "marker-labels",
+            draggable: false
+          }
+        },
+        {
+          id: 5,
+          //icon: 'assets/images/blue_marker.png',
+          latitude: 44.0381100000,
+          longitude: 12.5593900000,
+          showWindow: false,
+          options: {
+            labelContent: '00044',
+            labelAnchor: "22 0",
+            labelClass: "marker-labels",
+            draggable: false
+          }
+        }
+
+      ];
+
+
+  }, 2000);
+    
+
+
+    };
 
     }]);   
       
