@@ -14,8 +14,6 @@ angular.module('myApp.controllers')
                 
         $log.debug("AppCtrl ... start");
         $log.debug(ENV);
-                
-                
         $scope.currentUser = null;
         $scope.userRoles = ENV.USER_ROLES;
         $scope.isAuthorized = AuthService.isAuthorized;
@@ -205,10 +203,9 @@ angular.module('myApp.controllers')
     }, function () {
       $rootScope.$broadcast(ENV.AUTH_EVENTS.loginFailed);
     });
-
   };
 
-    $scope.logout = function (credentials) {
+  $scope.logout = function (credentials) {
       $log.debug('logout:calling .. AuthService. ..');
       $log.debug(credentials);
     AuthService.logout(credentials).then(function () {

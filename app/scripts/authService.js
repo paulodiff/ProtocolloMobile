@@ -8,36 +8,8 @@
 
 angular.module('myApp.services', [])
    
-.service('rService', [function () {
-    
-    this.time_diff = function(t1,t2) {
-    
-        console.log('rService.time_diff ... ');
-        //var d1 = new Date('1900-01-01T08:15:00.000Z');
-        //var d2 = new Date('1900-01-01T09:20:00.000Z');
-        console.log('t2' + t2);
-        console.log('t1' + t1);
-        console.log((t2-t1) / 1000 / 60 / 60 );
-        var diff = t2 - t1;
-        var msec = diff;
-        var hh = Math.floor(msec / 1000 / 60 / 60);
-        msec -= hh * 1000 * 60 * 60;
-        var mm = Math.floor(msec / 1000 / 60);
-        msec -= mm * 1000 * 60;
-        var ss = Math.floor(msec / 1000);
-        msec -= ss * 1000;
-        //console.log(diff);
-        //console.log(hh);
-        //console.log(mm);
-        //console.log(ss);
-        return (hh+':'+mm).toString();
-    };
-    
-  }])
-
-
   .service('version', [function() {
-      return '0.0.1';
+      return '1.0.0';
   }])
 
 
@@ -47,41 +19,23 @@ angular.module('myApp.services', [])
 
     login: function (credentials) {
 
-      $log.debug( $rootScope.base_url + '/api2/login');
+      $log.debug( $rootScope.base_url + ENV.apiLogin);
         
       return $http
-        .post($rootScope.base_url + '/api2/login', credentials)
+        .post($rootScope.base_url + ENV.apiLogin, credentials)
         .then(function (res) {
             $log.debug('AuthService login then');
             $log.debug(res);
-            $log.debug(res.data[0].id_utenti);
-            Session.create(res.data[0].id_utenti, res.data[0].nome_breve_utenti, res.data[0].token,  res.data[0].isadmin_utenti);
+            $log.debug(res.data.id_utenti);
+            Session.create(res.data.id_utenti, res.data.nome_breve_utenti, res.data.token,  res.data.isadmin_utenti);
         });
-
-
-        
- /*
-      return $http
-        .post('/api2/login', credentials)
-        .success(function (res) {
-            console.log('AuthService login then');
-            console.log(res);
-            console.log(res.data.id_utenti);
-            Session.create(res.data.id_utenti, res.data.nome_breve_utenti, res.data.token,  res.data.isAdmin);
-        })
-        .error(function (err) {
-            console.log('auth error');
-            console.log(err);
-        });
-*/
-
     },
       
     logout: function (credentials) {
         console.log('AuthService logout');
-        console.log( $rootScope.base_url + '/api2/logout');
+        console.log( $rootScope.base_url + ENV.apiLogout);
       return $http
-        .post( $rootScope.base_url + '/api2/logout', credentials)
+        .post( $rootScope.base_url + ENV.apiLogout, credentials)
         .then(function (res) {
             console.log('AuthService login then');
             console.log(res);

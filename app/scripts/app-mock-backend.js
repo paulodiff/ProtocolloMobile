@@ -6,56 +6,18 @@
 
 'use strict';
 // Set $httpBackend.whenGET for mock or .passThrough() for serve
-angular.module('myApp.mockBackend', []).run(function($httpBackend, DataMockModule) {
+angular.module('myApp.mockBackend', []).run(function($httpBackend, DataMockModule, ENV) {
+        
     
-    $httpBackend.whenGET('/games').respond(function(method, url, data) {
-        var games = DataMockModule.findAll();
-        return [200, games, {}];
-    });
-    
-    $httpBackend.whenGET(/\/games\/\d+/).respond(function(method, url, data) {
-        // parse the matching URL to pull out the id (/games/:id)
-        var gameid = url.split('/')[2];
-        
-        var game = DataMockModule.findOne(gameid);
 
-        return [200, game, {}];
-    });
+    $httpBackend.whenGET(/views\//).passThrough();
+    $httpBackend.whenGET(/templates\//).passThrough();
 
-    // this is the creation of a new resource
-    $httpBackend.whenPOST('/games').respond(function(method, url, data) {
-        var params = angular.fromJson(data);
+    $httpBackend.whenPOST(ENV.apiEndpoint + ENV.apiLogin).passThrough();
+    $httpBackend.whenPOST(ENV.apiEndpoint + ENV.apiLogout).passThrough();
 
-        var game = DataMockModule.addOne(params);
-        
-        // get the id of the new resource to populate the Location field
-        var gameid = game.gameid;
-        
-        return [201, game, { Location: '/games/' + gameid }];
-    });
 
-    // this is the update of an existing resource (ngResource does not send PUT for update)
-    $httpBackend.whenPOST(/\/games\/\d+/).respond(function(method, url, data) {
-        var params = angular.fromJson(data);
 
-        // parse the matching URL to pull out the id (/games/:id)
-        var gameid = url.split('/')[2];
-        
-        var game = DataMockModule.updateOne(gameid, params);
-        
-        return [201, game, { Location: '/games/' + gameid }];
-    });
-    
-    // this is the update of an existing resource (ngResource does not send PUT for update)
-    $httpBackend.whenDELETE(/\/games\/\d+/).respond(function(method, url, data) {
-        // parse the matching URL to pull out the id (/games/:id)
-        var gameid = url.split('/')[2];
-        
-        DataMockModule.deleteOne(gameid);
-        
-        return [204, {}, {}];
-    });    
-    
     $httpBackend.whenPOST('http://fakedev.yoursite.com:109900/api2/login').respond(function(method, url, data) {
         var user = [
                     {
@@ -70,8 +32,6 @@ angular.module('myApp.mockBackend', []).run(function($httpBackend, DataMockModul
     });
 
 
-    $httpBackend.whenGET(/views\//).passThrough();
-    $httpBackend.whenGET(/templates\//).passThrough();
     $httpBackend.whenPOST('https://dsp-paulo-difficiliora.cloud.dreamfactory.com/rest/user/session').passThrough();
     $httpBackend.whenDELETE('https://dsp-paulo-difficiliora.cloud.dreamfactory.com/rest/user/session').passThrough();
     $httpBackend.whenPOST('https://dsp-paulo-difficiliora.cloud.dreamfactory.com:443/rest/db/log').passThrough();

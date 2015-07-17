@@ -45,7 +45,9 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'development',
-            apiEndpoint: 'http://fakedev.yoursite.com:109900',
+            apiEndpoint: 'http://localhost:3000',
+            apiLogin: '/api/authenticate',
+            apiLogout: '/api/logout',
             loginUserName:'',
             loginUserPassword:'',
             AUTH_EVENTS:{loginSuccess:'auth-login-success',loginFailed:'auth-login-failed',logoutSuccess:'auth-logout-success',sessionTimeout:'auth-session-timeout',notAuthenticated:'auth-not-authenticated',notAuthorized:'auth-not-authorized'},
@@ -58,6 +60,8 @@ module.exports = function (grunt) {
           ENV: {
             name: 'production',
             apiEndpoint: 'http://fakedev.yoursite.com:109900',
+            apiLogin: '/api/login',
+            apiLogout: '/api/logout',
             loginUserName:'',
             loginUserPassword:'',
             AUTH_EVENTS:{loginSuccess:'auth-login-success',loginFailed:'auth-login-failed',logoutSuccess:'auth-logout-success',sessionTimeout:'auth-session-timeout',notAuthenticated:'auth-not-authenticated',notAuthorized:'auth-not-authorized'},
