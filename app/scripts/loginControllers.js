@@ -36,6 +36,7 @@ angular.module('myApp.controllers')
                 
         $rootScope.base_url = ENV.apiEndpoint;
 
+        /*
         if (ENV.name === 'development') {        
             $log.debug("AppCtrl ... development ... ");
             Session.create(1, 'PROVINCIA', ENV.token,  true);
@@ -43,6 +44,7 @@ angular.module('myApp.controllers')
             $scope.isAuthorized = ENV.isAuthorized;
             Restangular.setDefaultRequestParams({ apiKey: Session.token });
         }
+        */
   
                 
         $log.debug('WEB SERVICE WEB URL  : ' + $rootScope.base_url);
@@ -117,7 +119,7 @@ angular.module('myApp.controllers')
                 $log.debug('$stateChangeStart: check if isAuthenticated : ' + AuthService.isAuthenticated());
                 if(!AuthService.isAuthenticated()){
                     event.preventDefault();    
-                    $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+                    $rootScope.$broadcast(ENV.AUTH_EVENTS.notAuthenticated);
                 }
             } else {
                 $log.debug('$stateChangeStart: PATH free');

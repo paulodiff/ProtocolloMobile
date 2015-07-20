@@ -14,7 +14,6 @@
     <div class="col text-center positive"><h4>Protocollazione mobile</h4></div>
     </div>
 
-        <form id="loginform" class="form-horizontal" role="form" ng-submit="login(credentials)" novalidate>
                
       <!-- <p>&nbsp;</p> -->
 
@@ -25,6 +24,10 @@
         <h2>** Versione di prova **</h2>
         <h2>#Utente e password qualsiasi#</h2>
        </label>
+
+  <div ng-if="!currentUser">
+        <form id="loginform" class="form-horizontal" role="form" ng-submit="login(credentials)" novalidate>
+
         <label class="item item-input item-stacked-label">
            <span class="input-label">Utente:</span>
            <input type="text" ng-model="credentials.username" placeholder="username">
@@ -38,11 +41,29 @@
         <label class="item">
           <button class="button button-balanced button-block" type="submit">Logon</button>
         </label>
+
+      </form> 
+ </div> <!-- ng-if currentUser-->
+
+
+   <div ng-if="currentUser">
+         <form id="loginform" class="form-horizontal" role="form" ng-submit="logout(credentials)" novalidate>
+            <div class="list">
+            <label class="item item-text-wrap">
+                <p>Utente autenticato : {{currentUser}}</p>
+            </label>
+            </div>
+            <div class="padding">
+                <button type="submit" id="btn-login" class="button button-block button-positive">Disconnetti</button>
+            </div>
+         </form>  
+      </div> <!-- ng-if currentUser-->
+
+ 
           
       </div>
 
       
-      </form> 
         
     </ion-content>
 </ion-view>

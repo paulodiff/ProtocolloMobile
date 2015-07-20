@@ -4,9 +4,9 @@
     <ion-nav-buttons side="left">
       <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()"></button>
     </ion-nav-buttons>
-    <ion-nav-buttons side="right" >
-      <button class="button button-icon ion-more" ng-click="popover.show($event)"></button>
-    </ion-nav-buttons>
+      <ion-nav-buttons side="right" >
+        <button class="button button-icon ion-more" ng-click="popover.show($event)"></button>
+      </ion-nav-buttons>
     </ion-nav-bar>
     
     <ion-content has-header="true">
@@ -33,11 +33,12 @@
                   <p>{{ ::item.descrizione_breve}}</p>
                   <p>{{ ::item.descrizione_dettagliata}}</p>
                 
-                                                        
+                  <!--                                           
                     <ion-option-button class="button-positive"
                        ng-click="viewItem(item.id)">
                         Dettagli
                     </ion-option-button>
+                  -->
                 </ion-item>
             </ion-list>
         </div>

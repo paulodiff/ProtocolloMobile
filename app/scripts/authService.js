@@ -8,8 +8,8 @@
 
 angular.module('myApp.services', [])
    
-  .service('version', [function() {
-      return '1.0.0';
+  .service('VersionService', [function() {
+      return '1.0.2';
   }])
 
 
@@ -32,25 +32,26 @@ angular.module('myApp.services', [])
     },
       
     logout: function (credentials) {
-        console.log('AuthService logout');
-        console.log( $rootScope.base_url + ENV.apiLogout);
+        $log.debug('AuthService logout');
+        $log.debug( $rootScope.base_url + ENV.apiLogout);
       return $http
         .post( $rootScope.base_url + ENV.apiLogout, credentials)
         .then(function (res) {
-            console.log('AuthService login then');
-            console.log(res);
-            console.log(res.data.id_utenti);
+            $log.debug('AuthService logout ...');
+            $log.debug(res);
+            $log.debug(res.data.id_utenti);
+            $log.debug('Destroy session ...');
             Session.destroy();
         });
     },  
       
     isAuthenticated: function () {
-        console.log('AuthService isAuthenticated');
+        $log.debug('AuthService isAuthenticated');
         return !!Session.id_utenti;
     },
       
     isAuthorized: function (authorizedRoles) {
-        console.log('AuthService isAuthorized');
+        $log.debug('AuthService isAuthorized');
       if (!angular.isArray(authorizedRoles)) {
         authorizedRoles = [authorizedRoles];
       }
@@ -60,23 +61,23 @@ angular.module('myApp.services', [])
   };
 }])
 
-.service('Session', function () {
+.service('Session',  ['$log', function ($log) {
   this.create = function (id_utenti, nome_breve_utenti, token, isAdmin) {
-    console.log('Session create id:' + id_utenti);
-    console.log('Session nome_breve_utenti:' + nome_breve_utenti);
-    console.log('Session token:' + token);
-    console.log('Session isAdmin:' + isAdmin);
+    $log.debug('Session create id:' + id_utenti);
+    $log.debug('Session nome_breve_utenti:' + nome_breve_utenti);
+    $log.debug('Session token:' + token);
+    $log.debug('Session isAdmin:' + isAdmin);
     this.id_utenti = id_utenti;
     this.nome_breve_utenti = nome_breve_utenti;
     this.token = token;
     this.isAdmin = isAdmin;
   };
   this.destroy = function () {
-      console.log('Session destroy');
+     $log.debug('Session destroy');
     this.id_utenti = null;
     this.nome_breve_utenti = null;
     this.token = null;
     this.isAdmin = false;
   };
   return this;
-});
+}]);

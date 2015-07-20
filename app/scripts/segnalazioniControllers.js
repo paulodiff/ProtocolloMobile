@@ -446,8 +446,8 @@ angular.module('myApp.controllers')
 // InfiniteCtrl ---------------------------------------------------------------------------------
 // InfiniteCtrl ---------------------------------------------------------------------------------
 .controller('ListSegnalazioniController', 
-    ['$scope', '$state', '$location', 'Restangular', '$filter', 'Session', '$ionicModal','$ionicSideMenuDelegate','$ionicPopover', '$ionicLoading', '$log', '$timeout',
-     function($scope,  $state, $location, Restangular, $filter, Session, $ionicModal,   $ionicSideMenuDelegate,  $ionicPopover, $ionicLoading, $log, $timeout) {
+    ['$scope', '$state', '$location', 'Restangular', '$filter', 'Session', '$ionicModal','$ionicSideMenuDelegate','$ionicPopover', '$ionicPopup', '$ionicLoading', '$log', '$timeout',
+     function($scope,  $state, $location, Restangular, $filter, Session, $ionicModal,   $ionicSideMenuDelegate,    $ionicPopover,  $ionicPopup,    $ionicLoading,   $log,   $timeout) {
     
   $log.debug('ListSegnalazioniController>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');                                 
   $log.debug('ListSegnalazioniController start...');
@@ -520,6 +520,7 @@ angular.module('myApp.controllers')
                                
                                  
   //default criteria that will be sent to the server
+
   $scope.filterCriteria = {
     pageNumber: 1,
     count: 0,
@@ -532,31 +533,9 @@ angular.module('myApp.controllers')
     anno_selezione: 0
   };
     
-    $log.debug('ListSegnalazioniController SERVIZI INIT filterCriteria');
-    $log.debug($scope.filterCriteria);
+  $log.debug('ListSegnalazioniController SERVIZI INIT filterCriteria');
+  $log.debug($scope.filterCriteria);
     
-    // popola la lista utenti
-    var volontariList = Restangular.all('segnalazioniAll');
-                                 
-    $log.debug('ListSegnalazioniController #segnalazioniAll ' + volontariList.getRestangularUrl());                              
-                                 
-    volontariList.getList().then(function(accounts) {
-        $log.debug(accounts);
-        if(Session.isAdmin) {
-            $log.debug('ListSegnalazioniController : populate list : isAdmin ');
-            $scope.utentiList = accounts;
-            $scope.utentiList.push({"id_utenti": 0,"nome_breve_utenti": "TUTTI"});
-            $scope.id_utenti_selezione = 0;
-        } else {
-            $log.debug('ListSegnalazioniController : populate list : NOT isAdmin ');
-            $log.debug(Session.id_utenti);
-            $scope.id_utenti_selezione = Session.id_utenti;
-            $scope.filterCriteria.id_utenti_selezione = Session.id_utenti;
-            $scope.utentiList = [];
-            $scope.utentiList.push({id_utenti: Session.id_utenti,nome_breve_utenti: Session.nome_breve_utenti});
-        }
-    });    
- 
 
  
   //The function that is responsible of fetching the result from the server and setting the grid to the new result
@@ -572,25 +551,8 @@ angular.module('myApp.controllers')
       
       $log.debug('ListSegnalazioniController...fetchResult - GET Count');
       
-      // Get items count 
-      /*
-      $scope.filterCriteria.count = 1; // imposta il conteggio sul server
-      serviziList.getList($scope.filterCriteria).then(function(data) {
-            $log.debug('COUNT: data[0].totalItems:' + data[0].totalItems);
-            $log.debug(data);
-          
-            if (data.length > 0) {
-                $scope.totalItems = data[0].totalItems;
-            } else {
-                $scope.totalItems = 0;
-            }
-        // Error get count
-        }, function () {
-            $scope.totalItems = 0;
-            //$scope.totalPages = 0;
-      }); // items count
-      */      
-          // Get items ...  
+      
+       // Get items ...  
       $log.debug('ListSegnalazioniController...fetchResult - GET data');
       $scope.filterCriteria.count = 0; // imposta la selezione standard sul server
       $ionicLoading.show({template: 'Dati in arrivo!' });
@@ -656,6 +618,7 @@ angular.module('myApp.controllers')
                   
   //manually select a page to trigger an ajax request to populate the grid on page load
   $log.debug('ListSegnalazioniController : selectPage 1');
+  
   $scope.selectPage();
     
   // COLLECTION REPEAT TEST                               
@@ -667,127 +630,85 @@ angular.module('myApp.controllers')
   };                                 
                                  
                          
-     // action new relazione
-    $scope.new_relazione_action = function($id) {
+  // action new relazione
+  $scope.new_relazione_action = function($id) {
         $log.debug('Route to newRelazioni con id : ' + $id);
         $scope.detailModal.hide();
         $state.go('menu.newProtocollo', { id: $id });
-    };
+  };
 
     // action goto relazione
-    $scope.goto_relazione_action = function($id) {
+  $scope.goto_relazione_action = function($id) {
         $log.debug('Route to editRelazioni con id : ' + $id);
         $scope.detailModal.hide();
         $state.go('menu.editProtocollo', { id: $id });
-    };                                 
+  };                                 
                                  
                                  
-
-  /*
-                                 
-  // watch change selection    
-  $scope.$watch("id_utenti_selezione", function(newValue, oldValue) {
-        $log.debug('id_utenti changed! New ' + newValue + ' Old ' +  oldValue);
-        
-        if(Session.isAdmin) {
-            $scope.filterCriteria.id_utenti_selezione = newValue;
-            $scope.currentPage = 1;
-            $scope.filterCriteria.pageNumber = $scope.currentPage;
-            $scope.fetchResult();
-        } else {
-            $log.debug('id_utenti changed! New NO ADMIN NO ACTION');
-        }
-        
-    });    
-    
-    //watch on change data_servizi NON SERVE
-    
-                                 
-    $scope.$watch("data_servizi_selezione", function(newValue, oldValue) {
-        $log.debug('data_servizi changed!' + newValue + ' ' +  oldValue);
-        
-        if(newValue){
-            $log.debug($filter('date')(newValue,'MM'));
-            $log.debug($filter('date')(newValue,'yyyy'));
-            $scope.filterCriteria.mese_selezione = $filter('date')(newValue,'MM');
-            $scope.filterCriteria.anno_selezione = $filter('date')(newValue,'yyyy');
-        } else {
-            $scope.filterCriteria.mese_selezione = 0;
-            $scope.filterCriteria.anno_selezione = 0;
-        }
-        $scope.currentPage = 1;
-        $scope.filterCriteria.pageNumber = $scope.currentPage;
-        $scope.fetchResult();
-        
-    });    
-    
-    
-    $scope.popupDate = function($event) {
-        $log.debug('popupDate');
-        $event.preventDefault();
-        $event.stopPropagation();
-        if($scope.openedPopupDate) {
-            $scope.openedPopupDate = false;
-        } else {
-            $scope.openedPopupDate = true;
-        }
-    };
-    
-    */
-                                 
-    // callback for ng-click 'editUser':
-    $scope.editItem = function (itemId) {
+  // callback for ng-click 'editUser':
+  $scope.editItem = function (itemId) {
         $log.debug('editItem : change state');
         $log.debug(itemId);
         $location.path('/menu/edit/' + itemId);
-    };
+  };
     
     // callback for ng-click 'editUser':
-    $scope.editItem = function (itemId) {
+  $scope.editItem = function (itemId) {
         $log.debug('viewItem : change state');
         $log.debug(itemId);
         $location.path('/menu/view/' + itemId);
-    };    
+  };    
                                  
-                                 
-    // callback for ng-click 'editUser':
-    $scope.editRelazioni = function (itemId) {
-        $log.debug('/menu/editItem');
-        $location.path('/menu/editRelazioni/' + itemId);
-    };
     
-    
-     // callback for ng-click 'editUser':
-    $scope.newRelazioni = function () {
-        $log.debug('/menu/new');
-        $location.path('/menu/new');
-    };
-    
-    $scope.debug_action = function(item){
+  $scope.debug_action = function(item){
         $log.debug('DEBUG_ACTION');
         $log.debug($scope);
-    };
+  };
                    
 
      // callback for ng-click 'editUser':
     $scope.newProtocollo = function () {
         $log.debug('newProtocollo ... ');
-        $state.go('menu.newProtocollo');
+        var alertPopup = $ionicPopup.alert({
+            title: 'TEST',
+            template: 'Versione di prova - Nessuna modifica'
+        });
+            alertPopup.then(function(res) {
+            $log.debug('Versione di prova - Nessuna modifica');
+        });
+        //$state.go('menu.newProtocollo');
     };
     
 
     $scope.newItemFromPopover = function () {
+        $log.debug('newItemFromPopover ... ');
         $log.debug('/menu/newProtocollo');
-        $scope.popover.remove();
-        //$location.path('/menu/newProtocollo');
-        //$state.go('menu.newProtocollo', { id: $id });
-        $state.go('menu.newProtocollo');
+
+        var alertPopup = $ionicPopup.alert({
+            title: 'TEST',
+            template: 'Versione di prova - Nessuna modifica'
+        });
+            alertPopup.then(function(res) {
+            $log.debug('Versione di prova - Nessuna modifica');
+        });
+
+
+        //$scope.popover.remove();
+        //$state.go('menu.newProtocollo');
     };
                         
     $scope.OpenFilterFromPopover = function() {
         $log.debug('OpenFilterFromPopover');
-        $scope.popover.hide();
-        $scope.sortModal.show();
+        var alertPopup = $ionicPopup.alert({
+            title: 'TEST',
+            template: 'Versione di prova - Nessuna modifica'
+        });
+            alertPopup.then(function(res) {
+            $log.debug('Versione di prova - Nessuna modifica');
+        });
+
+        //$scope.popover.hide();
+        //$scope.sortModal.show();
     };                                   
                                  
     $scope.refreshDati = function() {
@@ -800,6 +721,8 @@ angular.module('myApp.controllers')
     
     };                                   
                           
+
+    // template popover per funzioni aggiuntive
                                  
     var templatePopover = '<ion-popover-view>';
     //templatePopover +=    '<ion-header-bar><h1 class="title">Azioni possibili</h1></ion-header-bar>';                                          
@@ -828,4 +751,3 @@ angular.module('myApp.controllers')
                                  
                                  
 }]);
-
