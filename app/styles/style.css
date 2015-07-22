@@ -38,6 +38,18 @@
     white-space: nowrap;
 }
 
+
+.marker-labels-old {
+    color: yellow;
+    background-color: white;
+    font-family: "Lucida Grande", "Arial", sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid black;
+    white-space: nowrap;
+}
+
 /* ionic fancy select :: http://codepen.io/mhartington/pen/CImqy */
 
 .fancy-select .list {  margin: -1px 0; }

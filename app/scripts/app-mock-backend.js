@@ -18,6 +18,7 @@ angular.module('myApp.mockBackend', []).run(function($httpBackend, DataMockModul
 
     
     $httpBackend.whenGET(/getSegnalazioni\/?.*/).passThrough();
+    $httpBackend.whenGET(/getPosizioni\/?.*/).passThrough();
     $httpBackend.whenPOST(ENV.apiEndpoint + ENV.apiLogin).passThrough();
     $httpBackend.whenPOST(ENV.apiEndpoint + ENV.apiLogout).passThrough();
 

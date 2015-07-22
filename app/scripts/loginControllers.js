@@ -62,7 +62,7 @@ angular.module('myApp.controllers')
             $scope.currentUser = Session.nome_breve_utenti;
             //Restangular.setDefaultRequestParams({ apiKey: Session.token });
             //$state.go('menu.list');
-            $state.go('menu.listProtocolli');
+            $state.go(ENV.routeAfterLogon);
         });
                 
                 
