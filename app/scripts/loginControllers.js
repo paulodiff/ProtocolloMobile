@@ -35,6 +35,9 @@ angular.module('myApp.controllers')
         // CONFIGURAZIONI -----------------------------------------------------------------        
                 
         $rootScope.base_url = ENV.apiEndpoint;
+        $log.debug('Restangular set base Url '+ ENV.apiEndpoint);
+        Restangular.setBaseUrl($rootScope.base_url);
+        
 
         /*
         if (ENV.name === 'development') {        
@@ -47,9 +50,7 @@ angular.module('myApp.controllers')
         */
   
                 
-        $log.debug('WEB SERVICE WEB URL  : ' + $rootScope.base_url);
-        $log.debug('Restangular set base Url '+ $rootScope.base_url + '/apiQ' );
-        Restangular.setBaseUrl($rootScope.base_url + '/apiQ');
+        //$log.debug('WEB SERVICE WEB URL  : ' + $rootScope.base_url);
                 
         
         //AUTH_EVENTS.loginFailed
@@ -151,9 +152,8 @@ angular.module('myApp.controllers')
                 
     $log.debug('LoginController...');
     $log.debug('LoginController...currentUser:' + $scope.currentUser );
-    
-
     $log.debug('LoginController...hide nav bar');
+
     /*
     document.getElementsByTagName('ion-nav-bar')[0].style.display = 'none';
     document.getElementsByTagName('ion-nav-bar')[1].style.display = 'none';

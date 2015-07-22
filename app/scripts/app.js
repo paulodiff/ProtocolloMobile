@@ -177,7 +177,7 @@ angular.module('myApp', ['ionic',
                     controller: "ListSegnalazioniController"
                 }
             },
-        accessLogged: true, 
+        accessLogged: false, 
         configAction: 'view'
     });   
 

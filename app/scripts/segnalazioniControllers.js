@@ -439,12 +439,14 @@ angular.module('myApp.controllers')
 
 
 
-// InfiniteCtrl ---------------------------------------------------------------------------------
-// InfiniteCtrl ---------------------------------------------------------------------------------
-// InfiniteCtrl ---------------------------------------------------------------------------------
-// InfiniteCtrl ---------------------------------------------------------------------------------
-// InfiniteCtrl ---------------------------------------------------------------------------------
-// InfiniteCtrl ---------------------------------------------------------------------------------
+// ListSegnalazioniController ---------------------------------------------------------------------------------
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .controller('ListSegnalazioniController', 
     ['$scope', '$state', '$location', 'Restangular', '$filter', 'Session', '$ionicModal','$ionicSideMenuDelegate','$ionicPopover', '$ionicPopup', '$ionicLoading', '$log', '$timeout',
      function($scope,  $state, $location, Restangular, $filter, Session, $ionicModal,   $ionicSideMenuDelegate,    $ionicPopover,  $ionicPopup,    $ionicLoading,   $log,   $timeout) {
@@ -515,22 +517,39 @@ angular.module('myApp.controllers')
   
   $scope.OpenFilter = function() {
        $log.debug("ListSegnalazioniController: OpenFilter .. sortModal.show()");
-        $scope.sortModal.show();
+       $scope.sortModal.show();
   };                                 
                                
-                                 
+  
+  // inzializza la data di filtro   
+  $log.debug('Init dateFilter');    
+  $scope.frmData = {};     
+  $scope.frmData.dateFilter = $filter('date')(new Date(), "dd-MM-yyyy");
+  $scope.frmData.dateFilter = new Date(2015, 6, 20);
+  $scope.frmData.auto1 = 'asdasd';
+  $log.debug($scope.frmData.dateFilter);
+
+
+  $scope.dateChanged = function(){
+    $log.debug('Date changed!');
+    //$log.debug($scope);
+    $log.debug($scope.frmData.dateFilter);
+    $log.debug($filter('date')($scope.frmData.dateFilter, "yyyyMMdd"));
+  };
+
   //default criteria that will be sent to the server
 
   $scope.filterCriteria = {
-    pageNumber: 1,
-    count: 0,
-    limit: $scope.pageSize,
-    start: 0,
-    sortDir: 'asc',
-    sortedBy: 'id',
-    id_utenti_selezione : Session.isAdmin ? 0 : Session.id_utenti,
-    mese_selezione : 0,
-    anno_selezione: 0
+    //pageNumber: 1,
+    //count: 0,
+    //limit: $scope.pageSize,
+    qDate: $filter('date')($scope.frmData.dateFilter, "yyyyMMdd"),
+    //start: 0,
+    //sortDir: 'asc',
+    //sortedBy: 'id',
+    //id_utenti_selezione : Session.isAdmin ? 0 : Session.id_utenti,
+    //mese_selezione : 0,
+    //anno_selezione: 0
   };
     
   $log.debug('ListSegnalazioniController SERVIZI INIT filterCriteria');
@@ -544,30 +563,34 @@ angular.module('myApp.controllers')
       $log.debug('ListSegnalazioniController: impostazione criteri di filtro');
 
       var offset_page =  ( $scope.currentPage - 1 ) * $scope.pageSize;
-      $scope.filterCriteria.start = offset_page;
+      //$scope.filterCriteria.start = offset_page;
+      $scope.filterCriteria.qDate =$filter('date')($scope.frmData.dateFilter, "yyyyMMdd");
       $log.debug($scope.filterCriteria);
-    
-      var serviziList = Restangular.all('segnalazioniAll');
-      
       $log.debug('ListSegnalazioniController...fetchResult - GET Count');
+    
+
+
+
+      var serviziList = Restangular.all('getSegnalazioni');
       
-      
-       // Get items ...  
+      // Get items ...  
       $log.debug('ListSegnalazioniController...fetchResult - GET data');
-      $scope.filterCriteria.count = 0; // imposta la selezione standard sul server
+      //$scope.filterCriteria.count = 0; // imposta la selezione standard sul server
       $ionicLoading.show({template: 'Dati in arrivo!' });
       return serviziList.getList($scope.filterCriteria).then(function(data) {
                $log.debug(data);
           
                 var fast_array = [];
           
-                $log.debug('ListSegnalazioniController .. preparing data...');
-                data.forEach(function (idata) {
+                //loop per modificare e preparare i dati in arrivo
+
+                //$log.debug('ListSegnalazioniController .. preparing data...');
+                //data.forEach(function (idata) {
                     //$log.debug(idata);
                     //$scope.items.push(idata);
-                    if(idata.annullato_servizi == 1) idata.image_class="icon ion-close-circled assertive";
-                    if((idata.id_rapporto_valido_servizio != null) && (idata.annullato_servizi == 0)) idata.image_class="icon ion-share balanced";
-                    if((idata.id_rapporto_valido_servizio == null) && (idata.annullato_servizi == 0)) idata.image_class="icon ion-checkmark balanced";
+                    //if(idata.annullato_servizi == 1) idata.image_class="icon ion-close-circled assertive";
+                    //if((idata.id_rapporto_valido_servizio != null) && (idata.annullato_servizi == 0)) idata.image_class="icon ion-share balanced";
+                    //if((idata.id_rapporto_valido_servizio == null) && (idata.annullato_servizi == 0)) idata.image_class="icon ion-checkmark balanced";
                     
                     /*
                     fast_array.push(
@@ -582,9 +605,9 @@ angular.module('myApp.controllers')
                     );
                     */
                     
-                });
+                //});
                 
-                $log.debug(fast_array);
+                //$log.debug(fast_array);
           
                 $scope.items = data;
                 //$scope.items = fast_array;
@@ -612,7 +635,7 @@ angular.module('myApp.controllers')
     $log.debug('ListSegnalazioniController: Page changed to: ' + $scope.currentPage);  
     $log.debug('ListSegnalazioniController...selectPage:' + page);
     $scope.currentPage = page;
-    $scope.filterCriteria.pageNumber = page;
+    //$scope.filterCriteria.pageNumber = page;
     $scope.fetchResult();
   };
                   
@@ -713,13 +736,21 @@ angular.module('myApp.controllers')
                                  
     $scope.refreshDati = function() {
         $log.debug('refreshDati .... ');
+        $scope.fetchResult();
+        /* FAKE
+        $log.debug($scope.frmData.dateFilter);
+        $log.debug($scope);
         $ionicLoading.show({template: 'Aggiornamento dati ...'});
         $timeout(function () {
 
             $ionicLoading.hide();
             }, 2000);
-    
-    };                                   
+        */
+    };             
+
+
+
+
                           
 
     // template popover per funzioni aggiuntive

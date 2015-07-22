@@ -13,26 +13,48 @@
         <div>
            <ion-list>
             </ion-list>
-                <form>
-                    <button class="button button-assertive button-block" ng-click="refreshDati()">Premi per aggiornare i dati</button>
-                </form>
               <div class="row">
                 <div class="col">
-                  <h4>Elenco segnalazioni del 15/07/2015</h4>
+                
+                <form name="myForm">
+
+            <label class="item item-input">
+                <div class="input-label"><b>Segnalazioni del:</b></div>
+                <input type="date" 
+                        ng-model="frmData.dateFilter"
+                        ng-change="dateChanged()">
+                </label>
+
+                    <button class="button button-assertive button-block" ng-click="refreshDati()">Premi per aggiornare i dati</button>
+      
+                </form>
+
+
                 </div>
               </div>
 
 
             <ion-list>
-                <ion-item ng-repeat="item in items" class="item-icon-left">
-                  <i class="icon ion-checkmark"></i> 
-                  <p><b>{{ ::item.tscreazione}} Protocollo:{{ ::item.protocollo}}</b></p>
-                  <p>{{ ::item.tipo_segnalazione}}</p>
-                  <p>Richiedente:{{ ::item.richiedente_nominativo}}</p>
-                  <p>Indirizzo:{{ ::item.evento_indirizzo1}}</p>
-                  <p>{{ ::item.descrizione_breve}}</p>
-                  <p>{{ ::item.descrizione_dettagliata}}</p>
-                
+                <ion-item ng-repeat="item in items" class="item-text-wrap">
+                  
+                  <p><b>{{item.tscreazione}} - {{item.protocollo}}</b></p>
+                  <p>{{item.tipo_segnalazione}}</p>
+                  <p>Richiedente:{{item.richiedente_nominativo}}</p>
+                  <p>Indirizzo:{{item.evento_indirizzo1}}</p>
+                  <p>{{item.descrizione_breve}}</p>
+                  <p>{{item.descrizione_dettagliata}}</p>
+                  <hr>
+                  <p ng-repeat="intervento in item.q2">
+                      {{intervento.stato}} 
+                      {{intervento.id_equipaggio_1}} 
+                      {{intervento.id_equipaggio_2}} 
+                      {{intervento.id_equipaggio_3}} 
+                  </p>
+                  <hr>
+                  <p ng-repeat="comunicazione in item.q3">
+                      {{comunicazione.comunicazione }} 
+                  </p>
+
                   <!--                                           
                     <ion-option-button class="button-positive"
                        ng-click="viewItem(item.id)">
@@ -40,108 +62,12 @@
                     </ion-option-button>
                   -->
                 </ion-item>
+                <ion-item ng-hide="items.length" class="item-text-wrap">
+                    <h3>Non ci sono elementi da visualizzare</h3>
+                    <h3>Modificare le impostazioni di ricerca</h3>
+                </ion-item>
             </ion-list>
+
         </div>
     </ion-content>
 </ion-view>   
-
-
-<!--
-
-
-
-
-
-
-<div class="container">
- <div class="panel panel-success">  
-  <div class="panel-heading">
-      <h3 class="panel-title">Opzioni di ricerca</h3>
-  </div>
-     <div class="panel-body">
-  <form class="form-inline">
-   <div class="controls">
-    <label class="control-label" for="textinput">Associazione:</label>
-       
-       <select 
-            class="form-control" 
-            ng-model="id_utenti_selezione" 
-            ng-options="i.id_utenti as i.nome_breve_utenti for i in utentiList">
-       </select>    
-    <label class="control-label" for="textinput">Data:</label>
-    <input type="text" 
-           class="form-control" 
-           datepicker-popup="dd/MM/yyyy" 
-           ng-model="data_servizi_selezione" 
-           is-open="openedPopupDate" 
-           ng-required="true" 
-           ng-click="popupDate($event)"
-           close-text="Close" />
-  </div>
-  </form>
-</div>
-</div>
-</div>
-
-<div class="container">
-<div class="panel panel-success">
-    <div class="panel-heading">
-        
-      <div class="row">
-        <div class="col-md-8">
-            <h4>Elenco Relazioni di Servizio</h4>
-        </div>
-        <div class="col-md-4">
-        </div>
-      </div>
-        
-    </div>
-    <div class="panel-body">
-
-
-<table class="table table-hover" id="dev-table">    
-    <thead>
-	   <tr>
-		  <th>#id</th>
-		  <th class="hidden-xs hidden-sm">Associazione</th>
-		  <th>Volontari</th>
-		  <th>Data</th>
-		  <th>Auto</th>
-          <th>Note</th>
-          <th>Rapporto</th>
-          <th>Id Preventivo</th>
-		</tr>
-	</thead>
-    <tbody>
-        <tr ng-repeat='item in items'
-            ng-class="{'danger' : item.annullato_relazioni == 1 }">
-            
-          <td><a ng-click="editItem(item.id)">{{item.id}} ()</a></td>
-          <td class="hidden-xs hidden-sm">{{item.nome_breve_utenti}}</td>
-          <td>{{item.elenco_volontari}} </td>
-          <td>{{item.data_relazioni | date:'dd/MM/yyyy' }} <br/> dalle {{item.da_ora_relazioni | date:'HH:mm' }}  alle {{item.a_ora_relazioni | date:'HH:mm' }}</td>
-          <td>{{item.auto_relazioni  }}</td>
-          <td>{{item.note_relazioni }}</td>
-          <td>{{item.rapporto_relazioni  }}</td>
-          <td>{{item.id_servizi}}</td>
-            
-        </tr>
-  </tbody>
-</table>
-
-<div ng-show="totalItems == 0">
-  <h3>Nessun dato trovato, cambiare i dati di ricerca.</h3>
-</div>
-        <pagination 
-            ng-model="currentPage" 
-            total-items="totalItems" 
-            items-per-page="pageSize"
-            ng-change="selectPage()">
-        </pagination>
-        
-      </div> 
-</div> 
-</div>  
-
--->
-        
