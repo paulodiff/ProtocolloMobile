@@ -60,7 +60,7 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'production',
-            apiEndpoint: 'http://fakedev.yoursite.com:109900',
+            apiEndpoint: 'http://localhost:3000/api',
             apiLogin: '/authenticate',
             apiLogout: '/logout',
             routeAfterLogon: 'menu.listSegnalazioni',

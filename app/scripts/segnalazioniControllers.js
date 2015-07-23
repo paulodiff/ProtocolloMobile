@@ -448,8 +448,8 @@ angular.module('myApp.controllers')
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .controller('ListSegnalazioniController', 
-    ['$scope', '$state', '$location', 'Restangular', '$filter', 'Session', '$ionicModal','$ionicSideMenuDelegate','$ionicPopover', '$ionicPopup', '$ionicLoading', '$log', '$timeout',
-     function($scope,  $state, $location, Restangular, $filter, Session, $ionicModal,   $ionicSideMenuDelegate,    $ionicPopover,  $ionicPopup,    $ionicLoading,   $log,   $timeout) {
+    ['$scope', '$state', '$location', 'Restangular', '$filter', 'Session', '$ionicModal','$ionicSideMenuDelegate','$ionicPopover', '$ionicPopup', '$ionicLoading', '$log', '$timeout','ENV',
+     function($scope,  $state, $location, Restangular, $filter, Session, $ionicModal,   $ionicSideMenuDelegate,    $ionicPopover,  $ionicPopup,    $ionicLoading,   $log,   $timeout, ENV) {
     
   $log.debug('ListSegnalazioniController>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');                                 
   $log.debug('ListSegnalazioniController start...');
@@ -524,8 +524,13 @@ angular.module('myApp.controllers')
   // inzializza la data di filtro   
   $log.debug('Init dateFilter');    
   $scope.frmData = {};     
-  $scope.frmData.dateFilter = $filter('date')(new Date(), "dd-MM-yyyy");
-  $scope.frmData.dateFilter = new Date(2015, 6, 20);
+  $scope.frmData.dateFilter = new Date();
+
+  // nei test setto una data opportuna
+  if (ENV.name == 'developement') {
+    //$scope.frmData.dateFilter = new Date(2015, 6, 20);
+  }
+
   $scope.frmData.auto1 = 'asdasd';
   $log.debug($scope.frmData.dateFilter);
 
@@ -568,8 +573,6 @@ angular.module('myApp.controllers')
       $log.debug($scope.filterCriteria);
       $log.debug('ListSegnalazioniController...fetchResult - GET Count');
     
-
-
 
       var serviziList = Restangular.all('getSegnalazioni');
       
