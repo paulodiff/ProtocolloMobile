@@ -29,5 +29,7 @@ chiama AuthService.login e manda un broadcast di success o failure con
 chima AuthService.logout analogo
 
 
+AppCtrl controllore che sta in attesa degli eventi .on
+
 
 

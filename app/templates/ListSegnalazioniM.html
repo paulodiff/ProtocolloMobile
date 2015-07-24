@@ -45,7 +45,8 @@
                   <p>{{item.descrizione_dettagliata}}</p>
                   <hr>
                   <p ng-repeat="intervento in item.q2">
-                      {{intervento.stato}} 
+                      {{intervento.stato}}-({{intervento.nome}})<br/> 
+                      {{intervento.ordini}}{{intervento.esito}}  
                       {{intervento.id_equipaggio_1}} 
                       {{intervento.id_equipaggio_2}} 
                       {{intervento.id_equipaggio_3}} 
@@ -54,6 +55,7 @@
                   <p ng-repeat="comunicazione in item.q3">
                       {{comunicazione.comunicazione }} 
                   </p>
+
 
                   <!--                                           
                     <ion-option-button class="button-positive"
