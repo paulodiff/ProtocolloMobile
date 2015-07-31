@@ -33,9 +33,10 @@
             <ion-list>
                 <ion-item ng-repeat="item in items" class="item-icon-left">
                   <i class="icon ion-checkmark"></i>
-                  <p><b>Anno:{{ ::item.anno}}-N.{{ ::item.numero}}</b></p>
+                  <p><b>Anno:{{ ::item.random}}-N.{{ ::item.TimeStamp}}</b></p>
                   <p><b>Data:{{ ::item.data_protocollo}}- Classifica {{ ::item.classifica}}</b></p>
-                  <p><b>Oggetto:{{ ::item.about}}</b></p>
+                  <p><b>Oggetto:{{ ::item.data.descrizione_oggetto}}</b></p>
+                  <p><b>Oggetto:{{ ::item.data}}</b></p>
                   
                                                         
                     <ion-option-button class="button-positive"

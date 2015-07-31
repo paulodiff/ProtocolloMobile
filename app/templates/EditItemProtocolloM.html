@@ -3,7 +3,7 @@
     <!-- This settings page is not fully implemented with volume and toggles but max results is used in the query. It was meant to be
     more of an example of some Ionic components for now -->
 
-     <ion-nav-bar class="bar-royal">
+     <ion-nav-bar class="bar-positive">
         <ion-nav-buttons side="left">
           <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()"></button>
         </ion-nav-buttons>
@@ -23,16 +23,17 @@
                     allow-empty='false'
                     label-text="Tipo doc.:"
                     header-text="Seleziona tipo doc"
-                    value="item.id_utenti"
-                    text="item.nome_breve_utenti"
+                    value="item.id_tipo_documento"
+                    text="item.descrizione_tipo_documento"
                     items="tipiDocumentoList">
             </fancy-select>
+
             <fancy-select
                               header-text="Seleziona oggetto"
                               label-text="Oggetto:"
                               allow-empty='false'
-                              text="item.elenco_volontari"
-                              value="item.elenco_id_volontari"
+                              value="item.id_oggetto"
+                              text="item.descrizione_oggetto"
                               items="oggettiDocumentoList"
                               multi-select="false"            
                               >
@@ -71,8 +72,25 @@
             </label>
 -->
           <label class="item item-input">
+                <span class="input-label">Cognome Nome</span>
+                <input type="text" ng-model="item.CognomeNome" capitalize>
+            </label>
+
+        <label class="item item-input">
+                <div class="input-label">Data di nascita</div>
+                <input type="date" 
+                       ng-model="item.DataDiNascita">
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label">Codice Fiscale</span>
+                <input type="text" ng-model="item.CodiceFiscale" capitalize>
+            </label>
+
+          
+            <label class="item item-input">
                 <span class="input-label">Note</span>
-                <input type="text" ng-model="item.note_relazioni">
+                <input type="text" ng-model="item.Note">
             </label>
 
             </div> <!-- ng-view -->
@@ -116,7 +134,7 @@
             </div>
     
             
-            <button class="button button-full button-positive" ng-show="configAction == 'new'" id="salvabutton"  ng-click="save_action_fake(item)"   name="singlebutton" class="btn btn-primary">Richiedi protocollo</button>
+            <button class="button button-full button-positive" ng-show="configAction == 'new'" id="salvabutton"  ng-click="save_action(item)"   name="singlebutton" class="btn btn-primary">Richiedi protocollo</button>
             <button class="button button-full button-assertive" ng-show="(configAction == 'view') && (id_rapporto_valido_servizio == null) && (item.annullato_relazioni == 0)" id="cancelbutton" ng-click="cancel_action(item)" name="button2id"    class="btn btn-danger">Annulla Elemento</button>
             <button class="button button-full button-positive" ng-show="(item.annullato_relazioni == 1)" id="cancelbutton" name="button2id"    class="btn btn-danger">Elemento ANNULLATO - nessuna operazione possibile</button>
       

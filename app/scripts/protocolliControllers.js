@@ -13,8 +13,8 @@ angular.module('myApp.controllers')
 //EditItemCtrl--------------------------------------------------------------------------------------
 //EditItemCtrl--------------------------------------------------------------------------------------
 .controller('EditItemProtocolloController', 
-    ['$scope', '$filter', '$state', '$stateParams', 'Restangular',  'rService', 'Session', '$ionicPopup','$log',   
-                    function( $scope,   $filter,   $state,   $stateParams,   Restangular, rService, Session, $ionicPopup, $log) {
+            ['$scope', '$filter', '$state', '$stateParams', 'Restangular',  'Session', '$ionicPopup', '$log',   
+    function( $scope,   $filter,   $state,   $stateParams,   Restangular,    Session,   $ionicPopup,   $log) {
 
     // azione deriva dalla configurazione del controller new/edit
     $log.debug('EditItemProtocolloCtrl:  configAction :' +  $state.current.configAction);
@@ -49,156 +49,56 @@ angular.module('myApp.controllers')
             $stateParams.id = 0;
         }
         
-        var baseAccounts = Restangular.all('serviziAll');
-        // This will query /accounts and return a promise.
-        baseAccounts.getList({limit: 50, id_servizi_selezione : $stateParams.id}).then(function(accounts) {
-            //$scope.projects = accounts;
-            //$log.debug(accounts);
-            $scope.item = accounts[0];
 
-            $log.debug('EditItemProtocolloController : load data ....');
-            // patch date object
-            $log.debug('EditItemProtocolloController : patch time object - 1');
-            $log.debug(accounts[0].da_ora_servizi);
-            $log.debug(accounts[0].a_ora_servizi);
-            $log.debug(accounts[0].data_servizi);
-            $log.debug('EditItemProtocolloController : patch time object - 2 - change format');
-            //$scope.item.data_servizi = $filter('date')(accounts[0].data_servizi, "yyyy-MM-dd"); 
-            //$scope.item.a_ora_servizi = $filter('date')(($filter('asDate')(accounts[0].a_ora_servizi)), "HH:mm"); 
-            //$scope.item.a_ora_servizi = accounts[0].a_ora_servizi.substr(11,5);
-            //$scope.item.da_ora_servizi = $filter('date')(accounts[0].da_ora_servizi, "HH:mm"); 
-            //$scope.item.da_ora_servizi = accounts[0].da_ora_servizi.substr(11,5);
-            $log.debug($scope.item.data_servizi);
-            $log.debug($scope.item.a_ora_servizi);
-            $log.debug($scope.item.da_ora_servizi);
-            
-            $log.debug('EditItemProtocolloController : elenco_id_volontari');
-            $log.debug(accounts[0].elenco_id_volontari);
-            //$log.debug(accounts[0].elenco_id_volontari.split(','));
+            $log.debug('EditItemProtocolloController : Set oggetti e tipi documento');
 
-            /*
-            $scope.item.id_utenti = accounts[0].id_utenti;
-            $scope.item.lista_volontari_servizi = accounts[0].elenco_id_volontari.split(',');
-            $scope.timeCalculated = rService.time_diff($scope.item.da_ora_servizi, $scope.item.a_ora_servizi);
-            $scope.elenco_id_rapporti_servizio = accounts[0].elenco_id_rapporti_servizio;
-            $scope.id_rapporto_valido_servizio = accounts[0].id_rapporto_valido_servizio;
-            $scope.item.annullato_servizi = accounts[0].annullato_servizi;
-            */
+            $scope.tipiDocumentoList = [
+                              {
+                             "id" : 22001,
+                             "checked" :  true,
+                             "text" : "TIPO DOC 22001 - SEQUESTRO"
+                            },
+                             {
+                             "id" : 2,
+                             "checked" :  true,
+                             "text" : "TIPO DOC 22002 - RICHIESTA"
+                            },
+                             {
+                             "id" : 3,
+                             "checked" :  true,
+                             "text" : "TIPO DOC 22003 - ????"
+                            },
+                             {
+                             "id" : 4,
+                             "checked" :  true,
+                             "text" : "TIPO DOC 4 - RICHIESTA"
+                            }
+                ];
 
-            if ( configAction == 'new') {
-                $log.debug('EditItemProtocolloController : NEW : INIT DATA');
-                $scope.item = [];
-                $scope.item.id_utenti = null;
-                $scope.item.lista_volontari_servizi = [];
-                $scope.item.data_servizi = $filter('date')(new Date(), "yyyy-MM-dd"); 
-                $scope.item.a_ora_servizi = $filter('date')(new Date(), "HH:mm"); 
-                $scope.item.da_ora_servizi = $filter('date')(new Date(), "HH:mm"); 
-                $scope.item.annullato_servizi = 0;
-            }
-            
-            
-            // fill tipi documento    
-            var tipiDocumentoList = Restangular.all('tipiDocumentoAll');    
-            tipiDocumentoList.getList().then(function(data) {
-                $log.debug('EditItemProtocolloController :' + data );    
-               $scope.tipiDocumentoList = data;     
-            });
+            $scope.oggettiDocumentoList = [
 
-            // fill tipi documento    
-            var oggettiDocumentoList = Restangular.all('oggettiDocumentoAll');    
-            oggettiDocumentoList.getList().then(function(data) {
-               $scope.oggettiDocumentoList = data;     
-            });
-            
+                              {
+                             "id" : 22001,
+                             "checked" :  true,
+                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. Curabitur rhoncus, justo at tincidunt congue, mi nunc tempor enim, id vehicula tellus sem eget lectus. Etiam blandit augue magna, quis suscipit ipsum sagittis sed. Mauris facilisis luctus dui a molestie. Nunc augue ipsum, pulvinar at erat at, auctor lacinia orci. Quisque eu sapien risus. Nunc neque arcu, commodo in malesuada nec, faucibus aliquam urna. Donec pretium sit amet nisi nec maximus. Ut laoreet varius felis, quis egestas enim blandit in. Nulla lacinia neque eget aliquam efficitur. Sed dignissim faucibus elit in auctor. Praesent interdum sapien at velit aliquet rutrum. Cras egestas mauris vitae tempor varius."
+                            },
+                             {
+                             "id" : 2,
+                             "checked" :  true,
+                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. Curabitur rhoncus, justo at tincidunt congue, mi nunc tempor enim, id vehicula tellus sem eget lectus. Etiam blandit augue magna, quis suscipit ipsum sagittis sed. Mauris facilisis luctus dui a molestie. Nunc augue ipsum, pulvinar at erat at, auctor lacinia orci. Quisque eu sapien risus. Nunc neque arcu, commodo in malesuada nec, faucibus aliquam urna. Donec pretium sit amet nisi nec maximus. Ut laoreet varius felis, quis egestas enim blandit in. Nulla lacinia neque eget aliquam efficitur. Sed dignissim faucibus elit in auctor. Praesent interdum sapien at velit aliquet rutrum. Cras egestas mauris vitae tempor varius."
+                            },
+                             {
+                             "id" : 3,
+                             "checked" :  true,
+                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. Curabitur rhoncus, justo at tincidunt congue, mi nunc tempor enim, id vehicula tellus sem eget lectus. Etiam blandit augue magna, quis suscipit ipsum sagittis sed. Mauris facilisis luctus dui a molestie. Nunc augue ipsum, pulvinar at erat at, auctor lacinia orci. Quisque eu sapien risus. Nunc neque arcu, commodo in malesuada nec, faucibus aliquam urna. Donec pretium sit amet nisi nec maximus. Ut laoreet varius felis, quis egestas enim blandit in. Nulla lacinia neque eget aliquam efficitur. Sed dignissim faucibus elit in auctor. Praesent interdum sapien at velit aliquet rutrum. Cras egestas mauris vitae tempor varius."
+                            },
+                             {
+                             "id" : 4,
+                             "checked" :  true,
+                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. Curabitur rhoncus, justo at tincidunt congue, mi nunc tempor enim, id vehicula tellus sem eget lectus. Etiam blandit augue magna, quis suscipit ipsum sagittis sed. Mauris facilisis luctus dui a molestie. Nunc augue ipsum, pulvinar at erat at, auctor lacinia orci. Quisque eu sapien risus. Nunc neque arcu, commodo in malesuada nec, faucibus aliquam urna. Donec pretium sit amet nisi nec maximus. Ut laoreet varius felis, quis egestas enim blandit in. Nulla lacinia neque eget aliquam efficitur. Sed dignissim faucibus elit in auctor. Praesent interdum sapien at velit aliquet rutrum. Cras egestas mauris vitae tempor varius."
+                            }
+                ];
 
-            /*
-
-            // fill volontari --------------------------------
-            
-            //##check null data
-            if ( (!(typeof $scope.item.id_utenti === "undefined")) && ($scope.item.id_utenti != null)) {
-                        
-            $log.debug('EditItemProtocolloController : populate volontariList per : ' + $scope.item.id_utenti);
-            var volontariList = Restangular.all('volontariAll');
-            volontariList.getList({id_volontari_utenti : $scope.item.id_utenti }).then(function(users) {
-                    
-            $log.debug('EditItemProtocolloController : patch accounts');
-        
-
-
-            var fancyArray = [];
-            var arrayLength = users.length;
-            $log.debug('EditItemProtocolloController : patch accounts for ' + arrayLength );
-            // build array per la lista di controllo fatta secondo il suo template    
-            for (var i = 0; i < arrayLength; i++) {
-                //users[i].id = users[i].id_;
-                var more = {
-                            id : users[i].id,
-                            checked :  (accounts[0].elenco_id_volontari.indexOf(users[i].id) > -1)  ?  true : false ,
-                            text : users[i].nome_completo_volontari
-                        };
-                $log.debug(more);
-                fancyArray.push(more);
-                //Do something
-            }
-        
-            $log.debug(users);
-            $scope.volontariList = fancyArray;
-            $log.debug($scope.volontariList);
-        
-            //$scope.volontariList = users;
-            });
-   
-            }//##check null data
-
-            */
-              
-            /*
-
-            //fill utenti ------------------------------------------------------------------------------------
-            if(Session.isAdmin) {
-                $log.debug('EditItemProtocolloController : populate list : isAdmin ' + Session.id_utenti + ' ' + Session.nome_breve_utenti);
-                var utentiList = Restangular.all('utentiAll');
-                    utentiList.getList().then(function(accounts) {
-                    //$log.debug(accounts);
-                    $scope.utentiList = accounts;
-                        
-                    var fancyArray = [];
-                    var arrayLength = accounts.length;
-                    $log.debug('EditItemProtocolloController : patch accounts for UTENTI LIST FANCY ' + arrayLength );
-                    for (var i = 0; i < arrayLength; i++) {
-                        //accounts[i].id = accounts[i].id_;
-                        var more = {
-                                    id : accounts[i].id_utenti,
-                                    checked : (accounts[i].id_utenti === $scope.item.id_utenti)  ?  true : false ,
-                                    text : accounts[i].nome_breve_utenti
-                                };
-                        $log.debug(more);
-                        fancyArray.push(more);
-                        //Do something
-                    }   
-                    $scope.utentiList = fancyArray;    
-                        
-                });
-            } else {
-                $log.debug('EditItemProtocolloController : populate list : NOT isAdmin ');
-                $log.debug(Session.id_utenti);
-                $scope.utentiList = [];
-                var fancyArray = [];
-                var more = {
-                                    id : Session.id_utenti,
-                                    checked : true,
-                                    text : Session.nome_breve_utenti
-                                };
-                fancyArray.push(more);
-                $scope.utentiList = fancyArray;
-                //$scope.utentiList.push({id_utenti: Session.id_utenti,nome_breve_utenti: Session.nome_breve_utenti});
-                $scope.item.id_utenti = Session.id_utenti;
-                $scope.item.nome_breve_utenti = Session.nome_breve_utenti;
-            }
-
-            */
-        });
     }
                         
     
@@ -206,16 +106,8 @@ angular.module('myApp.controllers')
     $scope.timeCalculated = 0;
     
  
-    // time change event
-    $scope.timechanged = function () {
-        $log.debug('EditItemProtocolloController : Time changed to: ' + $scope.item.da_ora_servizi);
-        $log.debug('EditItemProtocolloController : Time changed to: ' + $scope.item.a_ora_servizi);
-        $scope.timeCalculated = rService.time_diff($scope.item.da_ora_servizi, $scope.item.a_ora_servizi);
-        if ( $scope.timeCalculated < 1 ) {
-            $scope.timeCalculated = $scope.timeCalculated + 24;
-        }
-    };
-    
+
+   /* 
     //#### DELETE ACTION
     $scope.cancel_action = function(item){
         
@@ -247,9 +139,9 @@ angular.module('myApp.controllers')
                  }
         });
     }
-
+*/
     
-
+/*
     $scope.save_action_fake = function(item){
 
             var alertPopup = $ionicPopup.alert({
@@ -262,122 +154,161 @@ angular.module('myApp.controllers')
 
 
 
-    }
+        var confirmPopup = $ionicPopup.confirm({
+                title: 'Messaggio',
+                template: 'Proseguire con inserimento ?'
+        });
+        confirmPopup.then(function(res) {
+             if(res) {
+                   $log.debug('EditItemProtocolloController : Deleting....');
+                   $log.debug(item.id_servizi);
+                   Restangular.oneUrl('servizi', '/api1/servizi/' + item.id ).get().then(
+                     function(account){
+                            $log.debug('get!');
+                            $log.debug(account);
+                            account.annullato_servizi = 1;
+                            $log.debug('put!');
+                            //Restangular.setBaseUrl('/api1/servizi/' + item.id_servizi);
+                            Restangular.setBaseUrl('/api1');
+                            account.customPUT({annullato_servizi : 1},item.id, {}, {});
+                            //account.put();
+                            Restangular.setBaseUrl('/apiQ');
+                            $state.go('menu.list');
+                   });     
+                 } else {
+                   $log.debug('EditItemProtocolloController : Canceled....');
+                 }
+        });
 
+    }
+*/
     
     
     //#### SAVE ACTION
     $scope.save_action = function(item){
         
-        // validate form
-        $log.debug('EditItemProtocolloController:save_action:Start validator : ');
-        
-        var msg = '';
-    
-        if (typeof $scope.item.elenco_id_volontari === "undefined"){
-            msg = 'Selezionare un volontario!';
-        }
-        
-        if ($scope.item.elenco_id_volontari == ''){
-            msg = 'Selezionare un volontario!';
-        }
-        
-        $log.debug('EditItemProtocolloController:save_action:Start validator :data_servizi :' + $scope.item.data_servizi);
-        $log.debug('EditItemProtocolloController:save_action:Start validator :data_servizi :' + new Date());
-        
-        if ( (!Session.isAdmin) && ($scope.item.data_servizi < new Date())  ){
-            msg = 'Non è possibile selezionare date del servizio precedenti a quelle odierna.';
-        }
-    
-        if (msg != ''){
-            $log.debug('validate KO');
-            var alertPopup = $ionicPopup.alert({
-                title: 'Errori di input',
-                template: msg
-            });
-                alertPopup.then(function(res) {
-                $log.debug('Thank you for not eating my delicious ice cream cone');
-            });
-            
-        } else {
-            
-            $log.debug('validate OK ... saving data ...');
-        
-            var new_servizio = {
-                //id_volontari_servizi :  $scope.item.id_volontari_servizi,
-                id_utenti : $scope.item.id_utenti,
-                data_servizi : $scope.item.data_servizi,
-                da_ora_servizi : '1900-01-01T' + $scope.item.da_ora_servizi + ':00.000Z',
-                a_ora_servizi : '1900-01-01T' + $scope.item.a_ora_servizi + ':00.000Z',
-                note_servizi : $scope.item.note_servizi,
-                //lista_volontari : $scope.item.lista_volontari_servizi,
-                // split to array
-                lista_volontari : $scope.item.elenco_id_volontari.split(','),
-                rapporto_servizi :  $scope.item.rapporto_servizi
-            };
-            
-            $log.debug('Posting ... ');
-            $log.debug(new_servizio);
-            
-            var baseServizi = Restangular.allUrl('servizi', '/api1/servizi');
-            baseServizi.post(new_servizio).then(
-            function(msg){
-                $log.debug("Object saved OK");
-                $log.debug(msg.id);
-                
-                
-                $log.debug('Saving detail....data ');
-                
-            
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Messaggio',
-                    template: 'Dato inserito con successo!'
-                });
-                    alertPopup.then(function(res) {
-                    $log.debug('ok redirect to id: ' + msg.id);
-                    $state.go('menu.edit', { id: msg.id });
-                });
 
-            }, 
-            function(msg) {
-                $log.debug("There was an error saving ... ");
-                $log.debug(msg);
+        $log.debug(item);
+
+        var confirmPopup = $ionicPopup.confirm({
+                title: 'Messaggio',
+                template: 'Proseguire con inserimento ?'
+        });
+        confirmPopup.then(function(res) {
+            if(res){
+                $log.debug('EditItemProtocolloController:save_action:Start validator : ');
+                var msg = '';
+
+                /*
+                if (typeof $scope.item.elenco_id_volontari === "undefined"){
+                    msg = 'Selezionare un volontario!';
+                }
+                
+                if ($scope.item.elenco_id_volontari == ''){
+                    msg = 'Selezionare un volontario!';
+                }
+                */
+
+                if (msg != ''){
+                    $log.debug('EditItemProtocolloController: errori di validazione');
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Errori di input',
+                        template: msg
+                    });
+                        alertPopup.then(function(res) {
+                        $log.debug('EditItemProtocolloController: errori di validazione exit');
+                    });
+                    
+                } else {
+                    $log.debug('EditItemProtocolloController: validazione superata!');
+
+                    // creazione pacchetto per la protocollazione
+                    var new_protollo = {
+                            //id_volontari_servizi :  $scope.item.id_volontari_servizi,
+                            id_utenti : $scope.item.id_utenti,
+                            data_servizi : $scope.item.data_servizi,
+                            da_ora_servizi : '1900-01-01T' + $scope.item.da_ora_servizi + ':00.000Z',
+                            a_ora_servizi : '1900-01-01T' + $scope.item.a_ora_servizi + ':00.000Z',
+                            note_servizi : $scope.item.note_servizi,
+                            //lista_volontari : $scope.item.lista_volontari_servizi,
+                            // split to array
+                            //lista_volontari : $scope.item.elenco_id_volontari.split(','),
+                            rapporto_servizi :  $scope.item.rapporto_servizi
+                    };
+
+                    $log.debug(item);
+                    
+                    var baseProtocollo = Restangular.all('pai');
+
+                    $log.debug(baseProtocollo);
+                        
+                    var queryOptions =  {
+                                limit : 50,
+                                id_rapporti_selezione :  33
+                            };
+
+                           /* 
+                        Restangular.all("pai").customGET('', item).then(function(data) {
+                          console.log("All ok");
+                          console.log(data);
+                        }, function(response) {
+                          console.log("Error with status code", response.status);
+                          console.log(response);
+                        });
+                        */
+
+
+
+                    //baseProtocollo.getList().then(function(msg){
+                    Restangular.all("pai").customGET('', item).then(function(data) {    
+                        $log.debug("Object saved OK");
+                        $log.debug(msg);
+            
+                        var alertPopup = $ionicPopup.alert({
+                            title: 'Messaggio',
+                            template: 'Dato inserito con successo!'
+                        });
+                            alertPopup.then(function(res) {
+                            $log.debug('ok redirect to menu.listProtocolli ');
+                            //$state.go('menu.listProtocolli',{}, {reload: true});
+                            $state.transitionTo('menu.listProtocolli',{}, {reload: true});
+                        });
+
+                    },function(msg) {
+                        $log.debug("Errore nella chiamata ... ");
+                        $log.debug(msg);
+                         var alertPopup = $ionicPopup.alert({
+                            title: 'Messaggio',
+                            template: msg
+                        });
+                        alertPopup.then(function(res) {
+                            $log.debug('ERROR msg ' + msg);
+                            //$state.go('menu.edit', { id: msg.id });
+                        });
+
+                    });
+
+                    
+
+                } // msg
+
+            } else {
+                $log.debug('EditItemProtocolloController : Canceled....');
             }
-            );
-        }
-       
+        });
+
     }
     
-    // action new relazione
-    $scope.new_relazione_action = function($id) {
-        $log.debug('Route to newRelazioni con id : ' + $id);
-        $state.go('menu.newRelazioni', { id: $id });
-    };
+            
+    
 
-    // action goto relazione
-    $scope.goto_relazione_action = function($id) {
-        $log.debug('Route to editRelazioni con id : ' + $id);
-        $state.go('menu.editRelazioni', { id: $id });
-    };
-                        
-    
-    // click on date field
-    $scope.popupDate = function($event) {
-        $log.debug('EditItemCtrl : popupDate');
-        $event.preventDefault();
-        $event.stopPropagation();
-        if($scope.openedPopupDate) {
-            $scope.openedPopupDate = false;
-        } else {
-            $scope.openedPopupDate = true;
-        }
-    }; 
-    
     $scope.debug_action = function(item){
         $log.debug('DEBUG_ACTION');
         $log.debug(item);
     }
-                        
+      
+
+     /*                   
                         
     $log.debug('EditItemCtrl : watching item.id_utenti');
     // on change id_utenti 
@@ -418,14 +349,7 @@ angular.module('myApp.controllers')
             });
 
             
-            /*
-            var volontariList = Restangular.all('volontariAll');
-            volontariList.getList({id_volontari_utenti : newValue }).then(function(accounts) {
-                $log.debug('EditItemCtrl: RESET volontariList e list_volontari_servizi');
-                $scope.volontariList = accounts;
-                $scope.item.lista_volontari_servizi = [];
-            });
-            */
+
         }
         
     });
@@ -433,7 +357,8 @@ angular.module('myApp.controllers')
     $scope.$watch('item.volontariList1', function(newValue, oldValue){
         $log.debug('EditItemCtrl : DA_item.lista_volontari_servizi' + newValue + ' ' +  oldValue);
     });                    
-                        
+
+    */                        
                         
 }])
 
@@ -536,7 +461,7 @@ angular.module('myApp.controllers')
     $log.debug($scope.filterCriteria);
     
     // popola la lista utenti
-    var volontariList = Restangular.all('protocolliAll');
+    var volontariList = Restangular.all('paq');
                                  
     $log.debug('ListProtocolliController #protocolliAll ' + volontariList.getRestangularUrl());                              
                                  
@@ -568,7 +493,7 @@ angular.module('myApp.controllers')
       $scope.filterCriteria.start = offset_page;
       $log.debug($scope.filterCriteria);
     
-      var serviziList = Restangular.all('protocolliAll');
+      var serviziList = Restangular.all('paq');
       
       $log.debug('ListProtocolliController...fetchResult - GET Count');
       
@@ -603,10 +528,11 @@ angular.module('myApp.controllers')
                 data.forEach(function (idata) {
                     //$log.debug(idata);
                     //$scope.items.push(idata);
+                    /*
                     if(idata.annullato_servizi == 1) idata.image_class="icon ion-close-circled assertive";
                     if((idata.id_rapporto_valido_servizio != null) && (idata.annullato_servizi == 0)) idata.image_class="icon ion-share balanced";
                     if((idata.id_rapporto_valido_servizio == null) && (idata.annullato_servizi == 0)) idata.image_class="icon ion-checkmark balanced";
-                    
+                    */
                     /*
                     fast_array.push(
                         {
@@ -789,13 +715,22 @@ angular.module('myApp.controllers')
         $scope.popover.hide();
         $scope.sortModal.show();
     };                                   
-                                 
-                                 
+          
+   $scope.RefreshFromPopover = function() {
+        $log.debug('RefreshFromPopover');
+        $scope.popover.hide();
+        $scope.fetchResult();
+    }; 
+
+                 
+
+
                                  
     var templatePopover = '<ion-popover-view>';
     //templatePopover +=    '<ion-header-bar><h1 class="title">Azioni possibili</h1></ion-header-bar>';                                          
     templatePopover +=    '<ion-content>';                                      
     templatePopover +=    '<div class="list">';
+    templatePopover +=    '<a class="item item-icon-left" ng-click="RefreshFromPopover()"><i class="icon ion-loop"></i>Ricarica i dati</a>';
     templatePopover +=    '<a class="item item-icon-left" ng-click="newItemFromPopover()" ><i class="icon ion-plus-circled"></i> Nuovo elemento</a>';
     templatePopover +=    '<a class="item item-icon-left" ng-click="OpenFilterFromPopover()"><i class="icon ion-funnel"></i>Filtro</a>';
     //templatePopover +=    '<a class="item item-icon-left" ng-click="ShowItemDetailFromPopover()"><i class="icon ion-funnel"></i>Item</a>';

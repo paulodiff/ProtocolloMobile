@@ -7,17 +7,19 @@
 angular.module('myApp', ['ionic',
                          'ui.router',
                          'ngResource',
-                         'ngCordova',
+                         'ngAnimate',
+                         //'ngCordova',
                          'restangular',
-                         'ngMockE2E',
-                         'uiGmapgoogle-maps',
+                         //'ngMockE2E',
+                         //'uiGmapgoogle-maps',
                          'myApp.filters',
                          'myApp.services',
                          'myApp.directives',
                          'myApp.controllers',
-                         'myApp.config',
-                         'myApp.mockBackend',
-                         'myApp.mockService'])
+                         'myApp.config'
+                         //'myApp.mockBackend',
+                         //'myApp.mockService'
+                         ])
 
 
 // enable disable LOG
@@ -25,7 +27,7 @@ angular.module('myApp', ['ionic',
     $logProvider.debugEnabled(true);
 })
 
-
+/*
 // config uiGmapgoogle-maps
 .config(function(uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
@@ -34,6 +36,8 @@ angular.module('myApp', ['ionic',
         libraries: 'weather,geometry,visualization'
     });
 })
+*/
+
 
 // ui.router configuration
 .config(  ['$stateProvider', '$urlRouterProvider',
@@ -144,13 +148,14 @@ angular.module('myApp', ['ionic',
 
     $stateProvider.state('menu.listProtocolli',{
         url: '/listProtocolli',
+        cache: false,
          views: {
                 'menuContent' :{
                     templateUrl: "templates/ListProtocolliM.html",
                     controller: "ListProtocolliController"
                 }
             },
-        accessLogged: true, 
+        accessLogged: false, 
         configAction: 'view'
     });   
 
@@ -164,11 +169,11 @@ angular.module('myApp', ['ionic',
                 }
             },
         
-        accessLogged: true, 
+        accessLogged: false, 
         configAction: 'new'
   });
 
-
+/*
     $stateProvider.state('menu.listSegnalazioni',{
         url: '/listSegnalazioni',
          views: {
@@ -180,7 +185,7 @@ angular.module('myApp', ['ionic',
         accessLogged: false, 
         configAction: 'view'
     });   
-
+*/
 /*    
     // rapporti
     
@@ -262,7 +267,7 @@ angular.module('myApp', ['ionic',
         accessLogged: false, 
         configAction: 'view'
   });
-
+/*
  $stateProvider.state('menu.maps',{
         url: '/maps',
          views: {
@@ -274,7 +279,8 @@ angular.module('myApp', ['ionic',
         accessLogged: false, 
         configAction: 'view'
   });
-
+*/
+/*
  $stateProvider.state('menu.cordova',{
         url: '/cordova',
          views: {
@@ -286,8 +292,8 @@ angular.module('myApp', ['ionic',
         accessLogged: false, 
         configAction: 'view'
   });
-
-
+*/
+/*
  $stateProvider.state('test',{
         url: '/test',
         templateUrl: 'templates/testM.html', 
@@ -295,9 +301,9 @@ angular.module('myApp', ['ionic',
         accessLogged: false, 
         configAction: 'view'
   });
-
+*/
  // Preload templates FAKE
-
+/*
  $stateProvider.state('fake1',{
         url: '/fake1',
         templateUrl: 'templates/fancy-select.html', 
@@ -313,7 +319,7 @@ angular.module('myApp', ['ionic',
         accessLogged: false, 
         configAction: 'view'
   });  
-
+*/
   /*
   RestangularProvider.setBaseUrl('/apiQ');
   RestangularProvider.setDefaultRequestParams({ apiKey: '**********************' });
