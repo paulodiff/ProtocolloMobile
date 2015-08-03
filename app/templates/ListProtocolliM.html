@@ -31,18 +31,13 @@
 
 
             <ion-list>
-                <ion-item ng-repeat="item in items" class="item-icon-left">
-                  <i class="icon ion-checkmark"></i>
+                <ion-item ng-repeat="item in items" class="card item-text-wrap">
+                  <!-- <i class="icon ion-checkmark"></i> -->
                   <p><b>Anno:{{ ::item.random}}-N.{{ ::item.TimeStamp}}</b></p>
                   <p><b>Data:{{ ::item.data_protocollo}}- Classifica {{ ::item.classifica}}</b></p>
-                  <p><b>Oggetto:{{ ::item.data.descrizione_oggetto}}</b></p>
+                  <!-- <p><b>Oggetto:{{ ::item.data.descrizione_oggetto}}</b></p> -->
                   <p><b>Oggetto:{{ ::item.data}}</b></p>
                   
-                                                        
-                    <ion-option-button class="button-positive"
-                       ng-click="viewItem(item.id)">
-                        Dettagli
-                    </ion-option-button>
                 </ion-item>
             </ion-list>
         </div>

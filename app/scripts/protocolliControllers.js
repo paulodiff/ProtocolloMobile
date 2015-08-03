@@ -80,22 +80,22 @@ angular.module('myApp.controllers')
                               {
                              "id" : 22001,
                              "checked" :  true,
-                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. Curabitur rhoncus, justo at tincidunt congue, mi nunc tempor enim, id vehicula tellus sem eget lectus. Etiam blandit augue magna, quis suscipit ipsum sagittis sed. Mauris facilisis luctus dui a molestie. Nunc augue ipsum, pulvinar at erat at, auctor lacinia orci. Quisque eu sapien risus. Nunc neque arcu, commodo in malesuada nec, faucibus aliquam urna. Donec pretium sit amet nisi nec maximus. Ut laoreet varius felis, quis egestas enim blandit in. Nulla lacinia neque eget aliquam efficitur. Sed dignissim faucibus elit in auctor. Praesent interdum sapien at velit aliquet rutrum. Cras egestas mauris vitae tempor varius."
+                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. "
                             },
                              {
                              "id" : 2,
                              "checked" :  true,
-                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. Curabitur rhoncus, justo at tincidunt congue, mi nunc tempor enim, id vehicula tellus sem eget lectus. Etiam blandit augue magna, quis suscipit ipsum sagittis sed. Mauris facilisis luctus dui a molestie. Nunc augue ipsum, pulvinar at erat at, auctor lacinia orci. Quisque eu sapien risus. Nunc neque arcu, commodo in malesuada nec, faucibus aliquam urna. Donec pretium sit amet nisi nec maximus. Ut laoreet varius felis, quis egestas enim blandit in. Nulla lacinia neque eget aliquam efficitur. Sed dignissim faucibus elit in auctor. Praesent interdum sapien at velit aliquet rutrum. Cras egestas mauris vitae tempor varius."
+                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. "
                             },
                              {
                              "id" : 3,
                              "checked" :  true,
-                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. Curabitur rhoncus, justo at tincidunt congue, mi nunc tempor enim, id vehicula tellus sem eget lectus. Etiam blandit augue magna, quis suscipit ipsum sagittis sed. Mauris facilisis luctus dui a molestie. Nunc augue ipsum, pulvinar at erat at, auctor lacinia orci. Quisque eu sapien risus. Nunc neque arcu, commodo in malesuada nec, faucibus aliquam urna. Donec pretium sit amet nisi nec maximus. Ut laoreet varius felis, quis egestas enim blandit in. Nulla lacinia neque eget aliquam efficitur. Sed dignissim faucibus elit in auctor. Praesent interdum sapien at velit aliquet rutrum. Cras egestas mauris vitae tempor varius."
+                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. "
                             },
                              {
                              "id" : 4,
                              "checked" :  true,
-                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. Curabitur rhoncus, justo at tincidunt congue, mi nunc tempor enim, id vehicula tellus sem eget lectus. Etiam blandit augue magna, quis suscipit ipsum sagittis sed. Mauris facilisis luctus dui a molestie. Nunc augue ipsum, pulvinar at erat at, auctor lacinia orci. Quisque eu sapien risus. Nunc neque arcu, commodo in malesuada nec, faucibus aliquam urna. Donec pretium sit amet nisi nec maximus. Ut laoreet varius felis, quis egestas enim blandit in. Nulla lacinia neque eget aliquam efficitur. Sed dignissim faucibus elit in auctor. Praesent interdum sapien at velit aliquet rutrum. Cras egestas mauris vitae tempor varius."
+                             "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. "
                             }
                 ];
 
@@ -198,6 +198,45 @@ angular.module('myApp.controllers')
             if(res){
                 $log.debug('EditItemProtocolloController:save_action:Start validator : ');
                 var msg = '';
+
+
+              //var CodiceFiscale = 'RGGRGR70E25H294T';
+              //var CognomeNome = 'MARIO ROSSI';
+              //var DataDiNascita = '';
+              //var Note = '';
+              //var descrizione_oggetto = '';
+              //var id_oggetto = '';
+              //var descrizione_tipo_documento = '';
+              //var id_tipo_documento = '';
+
+                // controllo del codice fiscale
+                $log.debug('EditItemProtocolloController:save_action:validate codice fiscale : ');
+                var pattern = /^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
+                if ($scope.item.CodiceFiscale){ // se è definito lo controllo
+                    var strCodFisc = String($scope.item.CodiceFiscale);
+                    $log.debug('EditItemProtocolloController:save_action:validate codice fiscale : PRESENTE');
+                    if (!pattern.test(strCodFisc)){
+                        $log.debug('EditItemProtocolloController:save_action:validate codice fiscale : NON VALIDO');
+                        msg = 'Codice fiscale NON valido ! : ' + strCodFisc ;
+                    } else {
+                        $log.debug('EditItemProtocolloController:save_action:validate codice fiscale : VALIDO');
+                    }
+                } else {
+                    $log.debug('EditItemProtocolloController:save_action:validate codice fiscale : NON PRESENTE');
+                }
+                
+
+                if (($scope.item.CognomeNome == '') || ($scope.item.CognomeNome == undefined )){
+                    msg = 'Cognome Nome RICHIESTO!';
+                }
+
+                if (($scope.item.descrizione_oggetto == '') || ($scope.item.descrizione_oggetto == undefined )){
+                    msg = 'Oggetto RICHIESTO!';
+                }
+
+                if (($scope.item.descrizione_tipo_documento == '') || ($scope.item.descrizione_tipo_documento == undefined )){
+                    msg = 'Tipo Documento RICHIESTO!';
+                }
 
                 /*
                 if (typeof $scope.item.elenco_id_volontari === "undefined"){

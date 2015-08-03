@@ -45,7 +45,7 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'development',
-            apiEndpoint: 'http://localhost:3000/api',
+            apiEndpoint: 'http://localhost:3000/apiP',
             apiLogin: '/authenticate',
             apiLogout: '/logout',
             routeAfterLogon: 'menu.listProtocolli',
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'production',
-            apiEndpoint: 'http://localhost:3000/api',
+            apiEndpoint: 'http://localhost:3000/apiP',
             apiLogin: '/authenticate',
             apiLogout: '/logout',
             routeAfterLogon: 'menu.listProtocolli',
