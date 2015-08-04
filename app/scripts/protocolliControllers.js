@@ -13,8 +13,8 @@ angular.module('myApp.controllers')
 //EditItemCtrl--------------------------------------------------------------------------------------
 //EditItemCtrl--------------------------------------------------------------------------------------
 .controller('EditItemProtocolloController', 
-            ['$scope', '$filter', '$state', '$stateParams', 'Restangular',  'Session', '$ionicPopup', '$log',   
-    function( $scope,   $filter,   $state,   $stateParams,   Restangular,    Session,   $ionicPopup,   $log) {
+            ['$scope', '$filter', '$state', '$stateParams', 'Restangular',  'Session', '$ionicPopup', '$log', '$ionicLoading',   
+    function( $scope,   $filter,   $state,   $stateParams,   Restangular,    Session,   $ionicPopup,   $log,   $ionicLoading) {
 
     // azione deriva dalla configurazione del controller new/edit
     $log.debug('EditItemProtocolloCtrl:  configAction :' +  $state.current.configAction);
@@ -296,16 +296,16 @@ angular.module('myApp.controllers')
                         });
                         */
 
-
-
+                    // dati in arrivo
+                    $ionicLoading.show({template: 'Richiesta procotocollazione ... '});
                     //baseProtocollo.getList().then(function(msg){
                     Restangular.all("pai").customGET('', item).then(function(data) {    
                         $log.debug("Object saved OK");
                         $log.debug(msg);
-            
+                        $ionicLoading.hide();
                         var alertPopup = $ionicPopup.alert({
                             title: 'Messaggio',
-                            template: 'Dato inserito con successo!'
+                            template: 'Richiesta protocollo completata!'
                         });
                             alertPopup.then(function(res) {
                             $log.debug('ok redirect to menu.listProtocolli ');
