@@ -27,7 +27,7 @@
                     text="item.descrizione_tipo_documento"
                     items="tipiDocumentoList">
             </fancy-select>
-
+<!--
             <fancy-select
                               header-text="Seleziona oggetto"
                               label-text="Oggetto:"
@@ -38,7 +38,7 @@
                               multi-select="false"            
                               >
             </fancy-select>
-
+-->
 
 <!--
 
@@ -71,6 +71,14 @@
                 <input type="text" ng-model="item.auto_relazioni">
             </label>
 -->
+
+<div ng-show="formstatus.showDetailData">
+
+        <label class="item item-input">
+                <span class="input-label">Oggetto</span>
+                <input type="text" ng-model="item.OggettoDescrizione" capitalize>
+            </label>
+
           <label class="item item-input">
                 <span class="input-label">Cognome Nome</span>
                 <input type="text" ng-model="item.CognomeNome" capitalize>
@@ -87,6 +95,7 @@
                 <input type="text" ng-model="item.CodiceFiscale" capitalize>
             </label>
 
+</div>   <!-- formstatus.showDetailData -->
           
             <label class="item item-input">
                 <span class="input-label">Note</span>
@@ -94,7 +103,8 @@
             </label>
 
             </div> <!-- ng-view -->
-   
+
+<!--
                 
             <div ng-show="(configAction == 'view')">
              <label class="item item-input">
@@ -132,7 +142,7 @@
                 <b>Note:</b><br/>{{item.note_relazioni}}
             </label>
             </div>
-    
+    -->
             
             <button class="button button-full button-positive" ng-show="configAction == 'new'" id="salvabutton"  ng-click="save_action(item)"   name="singlebutton" class="btn btn-primary">Richiedi protocollo</button>
             <button class="button button-full button-assertive" ng-show="(configAction == 'view') && (id_rapporto_valido_servizio == null) && (item.annullato_relazioni == 0)" id="cancelbutton" ng-click="cancel_action(item)" name="button2id"    class="btn btn-danger">Annulla Elemento</button>

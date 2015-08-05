@@ -25,6 +25,8 @@ angular.module('myApp.controllers')
     $scope.configAction = configAction;
     $scope.item = {};
     $scope.openedPopupDate = false;   
+    $scope.formstatus = {};
+    $scope.formstatus.showDetailData = true;
                             
     $log.debug(  'EditItemProtocolloController:  load button action :');      
                         
@@ -45,8 +47,14 @@ angular.module('myApp.controllers')
 
         
         if ( configAction == 'new') {
-            $log.debug('EditItemProtocolloController : NEW : set ID === 0');
+            $log.debug('EditItemProtocolloController : Initializza form');
             $stateParams.id = 0;
+            $scope.item.CodiceFiscale = '';
+            $scope.item.OggettoDescrizione = '';
+            $scope.item.Note = '';
+            $scope.item.CognomeNome = '';
+            $scope.item.DataDiNascita = '';
+
         }
         
 
@@ -54,27 +62,32 @@ angular.module('myApp.controllers')
 
             $scope.tipiDocumentoList = [
                               {
-                             "id" : 22001,
+                             "id" : 26027,
                              "checked" :  true,
-                             "text" : "TIPO DOC 22001 - SEQUESTRO"
+                             "text" : "SEQUESTRO PENALE IGNOTI"
                             },
                              {
-                             "id" : 2,
+                             "id" : 26028,
                              "checked" :  true,
-                             "text" : "TIPO DOC 22002 - RICHIESTA"
+                             "text" : "SEQUESTRO PENALE NOMINATIVO"
                             },
                              {
-                             "id" : 3,
+                             "id" : 26029,
                              "checked" :  true,
-                             "text" : "TIPO DOC 22003 - ????"
+                             "text" : "SEQUESTRO AMMINISTRATIVO NOMINATIVO"
                             },
                              {
-                             "id" : 4,
+                             "id" : 26030,
                              "checked" :  true,
-                             "text" : "TIPO DOC 4 - RICHIESTA"
+                             "text" : "RINVENIMENTI"
+                            },
+                            {
+                             "id" : 26031,
+                             "checked" :  true,
+                             "text" : "DISTRUZIONE"
                             }
                 ];
-
+/*
             $scope.oggettiDocumentoList = [
 
                               {
@@ -98,7 +111,7 @@ angular.module('myApp.controllers')
                              "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium, massa nec maximus auctor, lorem massa scelerisque urna, vel tempus erat nunc id dui. "
                             }
                 ];
-
+*/
     }
                         
     
@@ -230,10 +243,11 @@ angular.module('myApp.controllers')
                     msg = 'Cognome Nome RICHIESTO!';
                 }
 
+                  /*
                 if (($scope.item.descrizione_oggetto == '') || ($scope.item.descrizione_oggetto == undefined )){
                     msg = 'Oggetto RICHIESTO!';
                 }
-
+  */
                 if (($scope.item.descrizione_tipo_documento == '') || ($scope.item.descrizione_tipo_documento == undefined )){
                     msg = 'Tipo Documento RICHIESTO!';
                 }
@@ -392,12 +406,73 @@ angular.module('myApp.controllers')
         }
         
     });
-                        
-    $scope.$watch('item.volontariList1', function(newValue, oldValue){
-        $log.debug('EditItemCtrl : DA_item.lista_volontari_servizi' + newValue + ' ' +  oldValue);
+               
+    */
+
+    // watch per il cambio dati
+
+    $scope.$watch('item.id_tipo_documento', function(newValue, oldValue){
+       
+
+        $log.debug('WATCH : item.id_tipo_documento' + newValue + ' ' +  oldValue);
+        $log.debug(typeof(newValue));
+
+        var cfi = 'RGGRGR70E25H294T';
+/*
+     A) 26027 Sequestro Penale Ignoti - IGNOTO
+     B) 26028 Sequestro Penale Nominativo - RICERCA NOMINATIVO - OGGETTO NOMINATIVO
+     C) 26029 Sequestro Amministrativo Nominativo - RICERCA NOMINATIVO - NOMINATIVO
+     D) 26030 Rinvenimenti.- IGNOTO OGGETTO RINVENIMENTO
+     E) 26031 Distruzione - IGNOTO OGGETTO DISTR.
+*/
+
+
+
+        if (newValue == 26027 ) {
+          $scope.item.CodiceFiscale = cfi;
+          $scope.item.CognomeNome = 'PERSONA IGNOTA';
+          $scope.item.OggettoDescrizione = 'SEQUESTRO PENALE IGNOTI';
+          $scope.formstatus.showDetailData = false;
+          $scope.item.Note= '';
+          //$scope.DataDiNascita = new Date(20)
+        }
+        if (newValue == 26028) {
+          $scope.item.CodiceFiscale = '';
+          $scope.item.CognomeNome = '';
+          $scope.item.OggettoDescrizione = 'SEQUESTRO PENALE NOMINATIVO';
+          $scope.formstatus.showDetailData = true;
+          $scope.item.Note= '';
+          //$scope.item.DataDiNascita = new Date(20)
+        }
+        if (newValue == 26029 ) {
+          $scope.item.CodiceFiscale = '';
+          $scope.item.CognomeNome = '';
+          $scope.item.OggettoDescrizione = 'SEQUESTRO AMMINISTRATIVO NOMINATIVO';
+          $scope.formstatus.showDetailData = true;
+          $scope.item.Note= '';
+          //$scope.DataDiNascita = new Date(20);
+        }
+        if (newValue == 26030 ) {
+          $scope.item.CodiceFiscale = cfi;
+          $scope.item.CognomeNome = 'PERSONA IGNOTA';
+          $scope.item.OggettoDescrizione = 'RINVENIMENTI';
+          $scope.formstatus.showDetailData = false;
+          $scope.item.Note= '';
+          //$scope.DataDiNascita = new Date(20);
+        }
+        if (newValue == 26031 ) {
+          $log.debug('test ----');
+          $scope.item.CodiceFiscale = cfi;
+          $scope.item.CognomeNome = 'PERSONA IGNOTA';
+          $scope.item.OggettoDescrizione = 'DISTRUZIONE';
+          $scope.item.Note= 'TEST';
+          $scope.formstatus.showDetailData = false;
+          //$scope.DataDiNascita = new Date(20);
+        }
+
     });                    
 
-    */                        
+                        
                         
 }])
 
