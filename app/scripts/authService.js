@@ -24,7 +24,7 @@ angular.module('myApp.services', [])
       return $http
         .post($rootScope.base_url + ENV.apiLogin, credentials)
         .then(function (res) {
-            $log.debug('AuthService login then');
+            $log.debug('AuthService login then .. create Session');
             $log.debug(res);
             $log.debug(res.data.id_utenti);
             Session.create(res.data.id_utenti, res.data.nome_breve_utenti, res.data.token,  res.data.isadmin_utenti);

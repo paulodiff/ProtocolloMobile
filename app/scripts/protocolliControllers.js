@@ -310,6 +310,9 @@ angular.module('myApp.controllers')
                         });
                         */
 
+                    // inserisce anche id_utenti
+                    item.id_utenti = Session.id_utenti;
+
                     // dati in arrivo
                     $ionicLoading.show({template: 'Richiesta procotocollazione ... '});
                     //baseProtocollo.getList().then(function(msg){
@@ -417,7 +420,7 @@ angular.module('myApp.controllers')
         $log.debug('WATCH : item.id_tipo_documento' + newValue + ' ' +  oldValue);
         $log.debug(typeof(newValue));
 
-        var cfi = 'RGGRGR70E25H294T';
+        var cfi = 'PRSGNT70A01H294V';
 /*
      A) 26027 Sequestro Penale Ignoti - IGNOTO
      B) 26028 Sequestro Penale Nominativo - RICERCA NOMINATIVO - OGGETTO NOMINATIVO
