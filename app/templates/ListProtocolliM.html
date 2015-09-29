@@ -33,10 +33,15 @@
             <ion-list>
                 <ion-item ng-repeat="item in items" class="card item-text-wrap">
                   <!-- <i class="icon ion-checkmark"></i> -->
-                  <p><b>Anno:{{ ::item.random}}-N.{{ ::item.TimeStamp}}</b></p>
-                  <p><b>Data:{{ ::item.data_protocollo}}- Classifica {{ ::item.classifica}}</b></p>
+                  <p><b>IdDocumento:</b>{{ ::item.IdDocumento}}</p>
+                  <p><b>Anno:</b>{{ ::item.AnnoProtocollo}}-<b>Numero:</b>{{ ::item.NumeroProtocollo}}</p>
+                  <p><b>Data:</b>{{ ::item.DataProtocollo}}</p>
+                  <p><b>Tipo Documento:</b>{{ ::item.id_tipo_documento}}-{{ ::item.tipo_documento}}</p>
+                  <p><b>Oggetto:</b>{{ ::item.OggettoDescrizione}}</p>
+                  <p><b>CognomeNome:</b>{{ ::item.CognomeNome}}</p>
+                  <p><b>CodiceFiscale:</b>{{ ::item.CodiceFiscale}}</p>
                   <!-- <p><b>Oggetto:{{ ::item.data.descrizione_oggetto}}</b></p> -->
-                  <p><b>Oggetto:{{ ::item.data}}</b></p>
+                  <p><b>Note:</b>{{ ::item.Note}}</p>
                   
                 </ion-item>
             </ion-list>

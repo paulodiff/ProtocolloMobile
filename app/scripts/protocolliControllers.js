@@ -64,27 +64,27 @@ angular.module('myApp.controllers')
                               {
                              "id" : 26027,
                              "checked" :  true,
-                             "text" : "SEQUESTRO PENALE IGNOTI"
+                             "text" : "26027 SEQUESTRO PENALE IGNOTI"
                             },
                              {
                              "id" : 26028,
                              "checked" :  true,
-                             "text" : "SEQUESTRO PENALE NOMINATIVO"
+                             "text" : "26028 SEQUESTRO PENALE NOMINATIVO"
                             },
                              {
                              "id" : 26029,
                              "checked" :  true,
-                             "text" : "SEQUESTRO AMMINISTRATIVO NOMINATIVO"
+                             "text" : "26029 SEQUESTRO AMMINISTRATIVO NOMINATIVO"
                             },
                              {
                              "id" : 26030,
                              "checked" :  true,
-                             "text" : "RINVENIMENTI"
+                             "text" : "26030 RINVENIMENTI"
                             },
                             {
                              "id" : 26031,
                              "checked" :  true,
-                             "text" : "DISTRUZIONE"
+                             "text" : "26031 DISTRUZIONE"
                             }
                 ];
 /*
