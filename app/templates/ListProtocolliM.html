@@ -32,7 +32,44 @@
 
             <ion-list>
                 <ion-item ng-repeat="item in items" class="card item-text-wrap">
-                  <!-- <i class="icon ion-checkmark"></i> -->
+
+
+                <div class="item row">
+                 <div class="col" style="text-align:center;"><b><p>Anno:</p></b>{{ ::item.AnnoProtocollo}}</div>
+                 <div class="col" style="text-align:center;"><b><p>Numero:</p></b>{{ ::item.NumeroProtocollo}}</div>
+                 <div class="col" style="text-align:center;"><b><p>Data:</p></b>{{::item.DataProtocollo | date:'dd/MM/yyyy'}}</div>
+                </div>
+
+                <div class="row">
+                <div class="col col-25"><b>Tipo</b></div>
+                <div class="col col-75">{{ ::item.id_tipo_documento}}-{{ ::item.tipo_documento}}</div>
+                </div>
+
+                <div class="row">
+                <div class="col col-25"><b>Oggetto</b></div>
+                <div class="col col-75">{{ ::item.OggettoDescrizione}}</div>
+                </div>
+
+                <div class="row">
+                <div class="col col-25"><b>Cognome Nome</b></div>
+                <div class="col col-75">{{ ::item.CognomeNome}}</div>
+                </div>
+
+                <div class="row">
+                <div class="col col-25"><b>Codice Fiscale</b></div>
+                <div class="col col-75">{{ ::item.CodiceFiscale}}</div>
+                </div>
+
+                <div class="row">
+                <div class="col col-25"><b>Note</b></div>
+                <div class="col col-75">{{ ::item.Note}}</div>
+                </div>
+
+                <p>
+                  <a href="#" class="subdued"><b>Id:</b>{{ ::item.IdDocumento}}</a>
+                </p>
+
+                <!-- 
                   <p><b>IdDocumento:</b>{{ ::item.IdDocumento}}</p>
                   <p><b>Anno:</b>{{ ::item.AnnoProtocollo}}-<b>Numero:</b>{{ ::item.NumeroProtocollo}}</p>
                   <p><b>Data:</b>{{ ::item.DataProtocollo}}</p>
@@ -40,8 +77,8 @@
                   <p><b>Oggetto:</b>{{ ::item.OggettoDescrizione}}</p>
                   <p><b>CognomeNome:</b>{{ ::item.CognomeNome}}</p>
                   <p><b>CodiceFiscale:</b>{{ ::item.CodiceFiscale}}</p>
-                  <!-- <p><b>Oggetto:{{ ::item.data.descrizione_oggetto}}</b></p> -->
                   <p><b>Note:</b>{{ ::item.Note}}</p>
+                -->
                   
                 </ion-item>
             </ion-list>

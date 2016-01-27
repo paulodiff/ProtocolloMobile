@@ -8,8 +8,8 @@ angular.module('myApp.controllers')
 
 
 .controller("AppCtrl", 
-                    ['$scope', '$rootScope', 'AuthService', 'Session', 'Restangular',  '$state', '$ionicPopup','$ionicSideMenuDelegate', 'ENV', '$log',
-            function($scope,   $rootScope,   AuthService,   Session,   Restangular,    $state,   $ionicPopup,  $ionicSideMenuDelegate,   ENV, $log) {
+                    ['$scope', '$rootScope', 'AuthService', 'Session', 'Restangular', '$state','$ionicLoading', '$ionicPopup','$ionicSideMenuDelegate', 'ENV', '$log',
+            function($scope,   $rootScope,   AuthService,   Session,   Restangular,  $state, $ionicLoading,   $ionicPopup,  $ionicSideMenuDelegate,   ENV, $log) {
 
                 
         $log.debug("AppCtrl ... start");
@@ -38,6 +38,56 @@ angular.module('myApp.controllers')
         $log.debug('Restangular set base Url '+ ENV.apiEndpoint);
         Restangular.setBaseUrl($rootScope.base_url);
         
+         Restangular.setErrorInterceptor(function(response, deferred, responseHandler) {
+
+            if(response.status === 0) {
+                    $ionicLoading.hide();
+                    $log.debug('setErrorInterceptor 0');
+                    $rootScope.$broadcast(ENV.AUTH_EVENTS.serverError);
+                    return false; // error handled
+            }
+
+
+            if(response.status === 403) {
+                    $ionicLoading.hide();
+                    $log.debug('setErrorInterceptor 403');
+                    $rootScope.$broadcast(ENV.AUTH_EVENTS.sessionTimeout);
+                    return false; // error handled
+            }
+
+            if(response.status === 500) {
+                    $ionicLoading.hide();
+                    $log.debug('setErrorInterceptor 500');
+                    $rootScope.$broadcast(ENV.AUTH_EVENTS.serverError);
+                    return false; // error handled
+            }
+
+            if(response.status === 502) {
+                    $ionicLoading.hide();
+                    $log.debug('setErrorInterceptor 502');
+                    $rootScope.$broadcast(ENV.AUTH_EVENTS.serverError);
+                    return false; // error handled
+            }
+
+            if(response.status === 504) {
+                    $ionicLoading.hide();
+                    $log.debug('setErrorInterceptor 504');
+                    $rootScope.$broadcast(ENV.AUTH_EVENTS.serverError);
+                    return false; // error handled
+            }
+
+            if(response.status === 404) {
+                    $ionicLoading.hide();
+                    $log.debug('setErrorInterceptor 404');
+                    $rootScope.$broadcast(ENV.AUTH_EVENTS.serverError);
+                    return false; // error handled
+            }
+
+
+            //return false; // error handled
+            return true; // error not handled
+        });
+
 
         /*
         if (ENV.name === 'development') {        
@@ -60,6 +110,7 @@ angular.module('myApp.controllers')
             $log.debug(event);
             $log.debug(next);
             $scope.currentUser = Session.nome_breve_utenti;
+            Restangular.setDefaultHeaders({'rr-access-token': Session.token});
             //Restangular.setDefaultRequestParams({ apiKey: Session.token });
             //$state.go('menu.list');
             $state.go(ENV.routeAfterLogon);
@@ -67,11 +118,12 @@ angular.module('myApp.controllers')
                 
                 
         $rootScope.$on(ENV.AUTH_EVENTS.logoutSuccess , function (event, next) {
-            $log.debug('AppCtrl: AUTH_EVENTS.logourSuccess ... ');
+            $log.debug('AppCtrl: AUTH_EVENTS.logoutSuccess ... ');
             $log.debug(event);
             $log.debug(next);
             $scope.currentUser = '';
-            Restangular.setDefaultRequestParams({ apiKey: '' });
+            Session.token = '123';
+            Restangular.setDefaultHeaders({token: ''});
             $state.go('menu.home');
         });        
                 
@@ -98,7 +150,7 @@ angular.module('myApp.controllers')
             $log.debug('AUTH_EVENTS.notAuthenticated ... ');
             $log.debug(event);
             $log.debug(next);
-            $scope.currentUser = Session.nome_breve_utenti;
+            $scope.currentUser = '';
             
              var alertPopup = $ionicPopup.alert({
                 title: 'Utente non autenticato',
@@ -108,10 +160,44 @@ angular.module('myApp.controllers')
              $log.debug('AppCtrl: alertPopup : OK');
                 $state.go('menu.home');
            });
-           
-           
             
         }); 
+
+
+        $rootScope.$on(ENV.AUTH_EVENTS.sessionTimeout, function (event, next) {
+            $log.debug('AUTH_EVENTS.sessionTimeout ... ');
+            $log.debug(event);
+            $log.debug(next);
+            $scope.currentUser = '';
+            
+             var alertPopup = $ionicPopup.alert({
+                title: 'Utente non autenticato o sessione di lavoro scaduta',
+                template: 'Immettere nome utente e password'
+                });
+            alertPopup.then(function(res) {
+             $log.debug('AppCtrl: alertPopup : OK');
+                $state.go('menu.home');
+           });
+
+        }); 
+
+        $rootScope.$on(ENV.AUTH_EVENTS.serverError, function (event, next) {
+            $log.debug('AUTH_EVENTS.serverError ... ');
+            $log.debug(event);
+            $log.debug(next);
+            $scope.currentUser = Session.nome_breve_utenti;
+            
+             var alertPopup = $ionicPopup.alert({
+                title: 'ERRORE di SISTEMA!',
+                template: 'Contattare il gestore del sistema!'
+                });
+            alertPopup.then(function(res) {
+             $log.debug('AppCtrl: alertPopup : OK');
+                $state.go('menu.home');
+           });
+
+        }); 
+
     
         $rootScope.$on('$stateChangeStart', function (event, next) {
             $log.debug('$stateChangeStart: ' + next.accessLogged);

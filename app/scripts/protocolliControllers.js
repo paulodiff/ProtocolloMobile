@@ -435,6 +435,7 @@ angular.module('myApp.controllers')
           $scope.item.CodiceFiscale = cfi;
           $scope.item.CognomeNome = 'PERSONA IGNOTA';
           $scope.item.OggettoDescrizione = 'SEQUESTRO PENALE IGNOTI';
+          $scope.item.DataDiNascita = '01/01/1970';
           $scope.formstatus.showDetailData = false;
           $scope.item.Note= '';
           //$scope.DataDiNascita = new Date(20)
@@ -458,6 +459,7 @@ angular.module('myApp.controllers')
         if (newValue == 26030 ) {
           $scope.item.CodiceFiscale = cfi;
           $scope.item.CognomeNome = 'PERSONA IGNOTA';
+          $scope.item.DataDiNascita = '01/01/1970';
           $scope.item.OggettoDescrizione = 'RINVENIMENTI';
           $scope.formstatus.showDetailData = false;
           $scope.item.Note= '';
@@ -467,6 +469,7 @@ angular.module('myApp.controllers')
           $log.debug('test ----');
           $scope.item.CodiceFiscale = cfi;
           $scope.item.CognomeNome = 'PERSONA IGNOTA';
+          $scope.item.DataDiNascita = '01/01/1970';
           $scope.item.OggettoDescrizione = 'DISTRUZIONE';
           $scope.item.Note= 'TEST';
           $scope.formstatus.showDetailData = false;
@@ -577,6 +580,7 @@ angular.module('myApp.controllers')
     $log.debug('ListProtocolliController SERVIZI INIT filterCriteria');
     $log.debug($scope.filterCriteria);
     
+    /*
     // popola la lista utenti
     var volontariList = Restangular.all('paq');
                                  
@@ -598,7 +602,7 @@ angular.module('myApp.controllers')
             $scope.utentiList.push({id_utenti: Session.id_utenti,nome_breve_utenti: Session.nome_breve_utenti});
         }
     });    
- 
+ */
 
  
   //The function that is responsible of fetching the result from the server and setting the grid to the new result
@@ -675,7 +679,17 @@ angular.module('myApp.controllers')
               
           // in caso di errore azzera la lista...      
           }, function () {
+                $log.debug(' ListProtocolliController .. ERROR!');
                 $scope.items = [];
+                $log.debug(error);
+                $ionicLoading.hide();
+
+                /*
+                if (error.status == 403) {
+                    //event.preventDefault();    
+                    $rootScope.$broadcast(ENV.AUTH_EVENTS.notAuthenticated);
+                }
+                */
       });
           
       /*

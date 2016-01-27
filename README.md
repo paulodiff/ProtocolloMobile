@@ -32,4 +32,11 @@ chima AuthService.logout analogo
 AppCtrl controllore che sta in attesa degli eventi .on
 
 
+// DATI DI TEST
+RSSMRA70A01H294C 
+MARIO ROSSI
+01/01/1970
+RIMINI
+
+
 
